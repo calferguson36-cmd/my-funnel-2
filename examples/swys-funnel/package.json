@@ -1,0 +1,9 @@
+{
+  "name": "sws-funnel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sell While You Sleep 2.0 funnel (static page + Stripe serverless function).",
+  "dependencies": {
+    "stripe": "^17.5.0"
+  }
+}

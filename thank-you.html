@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You &middot; [Your Offer Name]</title>
+<link rel="icon" type="image/svg+xml" href="assets/emblem.svg">
+<link rel="stylesheet" href="brand.css">
+<style>
+  body { background: var(--bg); }
+  .ty { max-width: 640px; margin: 0 auto; padding: 70px 22px; text-align: center; }
+  .ty > img { height: 40px; margin-bottom: 28px; }
+  .ty .card { background: var(--white); border: 1px solid rgba(1,49,33,0.10); border-radius: var(--radius); box-shadow: var(--shadow); padding: 36px 28px; }
+  .ty h1 { margin: 0 0 14px; }
+  .ty p { color: var(--text); font-size: 18px; }
+  .ty .status { font-weight: 700; color: var(--secondary); margin-bottom: 8px; }
+</style>
+</head>
+<body>
+  <div class="ty">
+    <img src="assets/logo-dark.svg" alt="[Your Brand]">
+    <div class="card">
+      <p class="status" id="status">Confirming your order&hellip;</p>
+      <h1>You&rsquo;re in.</h1>
+      <p>Your order is confirmed. Check your inbox for your login details and next steps. Need anything? Email <a href="mailto:[support@yourdomain.com]">[support@yourdomain.com]</a>.</p>
+    </div>
+  </div>
+
+  <script>
+    // Stripe appends ?payment_intent=...&redirect_status=succeeded to this URL.
+    // We just surface the status here; the authoritative confirmation should be a
+    // Stripe webhook on the backend (not built yet).
+    (function () {
+      var p = new URLSearchParams(location.search);
+      var s = p.get('redirect_status');
+      var el = document.getElementById('status');
+      if (!el) return;
+      if (s === 'succeeded') el.textContent = 'Payment successful ✓';
+      else if (s) el.textContent = 'Payment status: ' + s;
+      else el.style.display = 'none';
+    })();
+  </script>
+</body>
+</html>

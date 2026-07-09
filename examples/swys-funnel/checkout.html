@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sell While You Sleep 2.0 Checkout</title>
+<link rel="icon" type="image/svg+xml" href="assets/emblem-dark-green.svg">
+<link rel="stylesheet" href="brand.css">
+<style>
+  body { background: var(--bg); }
+  .co-trust {
+    background: var(--primary); color: var(--celadon);
+    display: flex; flex-wrap: wrap; gap: 6px 28px; justify-content: center;
+    padding: 12px 18px; font-size: 14px; font-weight: 600; text-align: center;
+  }
+  .co-head { text-align: center; padding: 22px 0 4px; }
+  .co-head img { height: 34px; }
+  .co-grid {
+    max-width: 1080px; margin: 10px auto 0; padding: 0 20px;
+    display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; align-items: start;
+  }
+  @media (max-width: 860px){ .co-grid { grid-template-columns: 1fr; } }
+  .panel { background: var(--white); border: 1px solid rgba(1,49,33,0.10); border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px; }
+  .panel h2 { margin-top: 8px; }
+  .label { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin: 22px 0 8px; }
+  .field { width: 100%; padding: 13px 14px; border: 1px solid rgba(50,49,46,0.25); border-radius: 8px; font-family: var(--font-body); font-size: 16px; margin-bottom: 12px; background: var(--bg); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  table.line { width: 100%; border-collapse: collapse; margin: 8px 0 4px; font-size: 15px; }
+  table.line th { text-align: left; color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(150,143,142,0.3); padding: 8px 6px; }
+  table.line td { padding: 10px 6px; border-bottom: 1px solid rgba(150,143,142,0.16); }
+  table.line td.r, table.line th.r { text-align: right; }
+  .bump { border: 2px solid var(--secondary); border-radius: var(--radius); padding: 18px 18px; margin: 16px 0; background: #F2F8F4; }
+  .bump-head { display: flex; align-items: flex-start; gap: 12px; }
+  .bump-head input { margin-top: 5px; transform: scale(1.35); accent-color: var(--secondary); }
+  .bump-flag { display: inline-block; background: var(--secondary); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 9px; border-radius: 5px; margin-bottom: 8px; }
+  .bump-title { font-weight: 800; color: var(--primary); }
+  .bump-price { display: inline-block; background: var(--secondary); color: #fff; font-weight: 800; font-size: 13px; border-radius: 6px; padding: 2px 9px; margin-left: 6px; white-space: nowrap; }
+  table.line tr.bump-line td { color: var(--secondary); font-weight: 600; }
+  .bump p { font-size: 15px; margin: 8px 0; }
+  .totals { background: var(--bg); border-radius: 8px; padding: 14px 16px; margin: 14px 0; }
+  .totals .grand { display: flex; justify-content: space-between; font-weight: 800; color: var(--primary); font-size: 19px; border-top: 1px solid rgba(150,143,142,0.3); margin-top: 8px; padding-top: 8px; }
+  .pay-methods { display: flex; gap: 10px; margin: 8px 0 14px; }
+  .pay-methods span { flex: 1; text-align: center; border: 1px solid rgba(50,49,46,0.2); border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 600; color: var(--muted); background: var(--bg); }
+  .agree { display: flex; gap: 12px; align-items: flex-start; font-size: 13px; color: var(--text); margin: 16px 0; line-height: 1.5; }
+  .agree input { margin-top: 3px; transform: scale(1.2); accent-color: var(--secondary); }
+  .btn-full { display: block; width: 100%; text-align: center; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+  .badge { font-size: 11px; font-weight: 700; color: var(--muted); border: 1px solid rgba(150,143,142,0.35); border-radius: 6px; padding: 6px 10px; }
+  .recap .congrats { font-family: var(--font-head); color: var(--secondary); font-weight: 700; font-size: 22px; text-align: center; margin: 6px 0 4px; }
+  .recap ul.checks li { font-size: 15px; padding-left: 32px; }
+  .recap ul.checks li:before { font-size: 16px; }
+  .bonus-mini { border-left: 4px solid var(--secondary); padding: 8px 0 8px 14px; margin: 14px 0; }
+  .bonus-mini .t { font-weight: 700; color: var(--primary); }
+  .bonus-mini .v { color: var(--secondary); font-weight: 700; font-size: 14px; }
+  .guar-mini { background: var(--primary); color: var(--bg); border-radius: var(--radius); padding: 16px 18px; margin: 16px 0; text-align: center; font-size: 14px; }
+  .guar-mini strong { color: var(--celadon); }
+  #payment-element { margin: 8px 0 4px; }
+  .pay-error { color: #b3261e; font-size: 13px; margin: 8px 0 0; min-height: 16px; }
+  #payBtn[disabled] { opacity: 0.7; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<div class="co-trust">
+  <span>&#128181; Sell While You Sleep 2.0</span>
+  <span>&#128274; 100% Secure Order</span>
+  <span>&#127873; 3 Free Bonuses $8,991 Value</span>
+</div>
+
+<header class="co-head">
+  <img src="assets/full-dark-green.svg" alt="Productized Coach">
+</header>
+
+<div class="co-grid">
+
+  <!-- LEFT: FORM + PAYMENT -->
+  <div class="panel">
+    <h2>You&rsquo;re Almost Finished&hellip;</h2>
+
+    <div class="label">Contact &amp; Shipping Information</div>
+    <input id="custName" class="field" type="text" placeholder="Full Name">
+    <input id="custEmail" class="field" type="email" placeholder="Email Address">
+
+    <div class="label">Payment</div>
+    <table class="line">
+      <thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Price</th></tr></thead>
+      <tbody><tr><td>Sell While You Sleep 2.0</td><td class="r">1</td><td class="r">$3.00</td></tr></tbody>
+    </table>
+
+    <!-- ORDER BUMPS -->
+    <div class="bump">
+      <span class="bump-flag">&#9889; Order Bump #1: &ldquo;Done For You&rdquo; Speed Pack</span>
+      <div class="bump-head">
+        <input type="checkbox" class="bump-check" data-id="swys-category-of-one" data-cents="2500" data-label="Category of One Workshop" data-excl="single">
+        <div>
+          <span class="bump-title">YES, I Want to Create a Category of One Offer</span> <span class="bump-price">+ $25</span>
+          <p><strong>ONE TIME OFFER - Get 75% Off On This Page Only</strong></p>
+          <p>The biggest difference between a Micro Offers that convert and those that flop is NOT AI Prompting&hellip;</p>
+          <p>It&rsquo;s creating a &ldquo;Category of One&rdquo; position in your niche with mechanisms and names.</p>
+          <p>This is exactly how we came into a brand new market and did $175,000 in low ticket sales in less than 6 months.</p>
+          <p>This workshop originally sold for $100. But after realizing how important it is to get this in your hands you can get it for just $25 on this page ONLY.</p>
+          <p>Complete with prompts &amp; tools to help you create your own moat where people buy even if the competition has more testimonials &amp; flashy logos on their site.</p>
+          <p>Click the tick box to add it to your order today and let&rsquo;s get some buyse</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bump">
+      <div class="bump-head">
+        <input type="checkbox" class="bump-check" data-id="swys-presold" data-cents="2700" data-label="Presold Workshop + 267-Word Offer Doc" data-excl="single">
+        <div>
+          <span class="bump-title">Get Clients and Subscribers Without Calls Using This 267 Word Doc</span> <span class="bump-price">+ $27</span>
+          <p><strong>ONE TIME OFFER: Get 66% OFF PRESOLD + Updated Offer Doc</strong></p>
+          <p>Once you get buyers you&rsquo;re going to want to ascend them to get money.</p>
+          <p>And if you&rsquo;re like me, you want to do it without sales calls.</p>
+          <p>That&rsquo;s why on this page I decided to give you a STEEP discount on one of my best workshops + AI tools of all time &ldquo;Presold&rdquo;.</p>
+          <p>Inside you&rsquo;ll see how I closed over $700,000 in clients without taking a single sales call using daily emails&hellip;</p>
+          <p>&hellip;paired with the NEW 267 Word Productized Offer Doc that helped a new client close $22K in sales of May 2026.</p>
+          <p>(And I&rsquo;ve made a nice 6 figures in sales off this doc alone)</p>
+          <p>Again, I sold this workshop with paid ads for $100.</p>
+          <p>But you can get instant access to the workshop + AI tools + bare basic Productized Offer Doc for ONE single payment of $27.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bump">
+      <div class="bump-head">
+        <input type="checkbox" class="bump-check" data-id="swys-bundle" data-cents="4000" data-label="Bundle: Category of One + Presold" data-excl="bundle">
+        <div>
+          <span class="bump-title">Bundle and Get BOTH For 80% Off Retail</span> <span class="bump-price">+ $40</span>
+          <p>Here&rsquo;s the &ldquo;shut up and take my money option&rdquo;.</p>
+          <p>You can get instant access to:</p>
+          <p><strong>Category of One</strong>: Create a Category of One Offer to outcompete the largest competitor in your space.</p>
+          <p><strong>Presold</strong>: So you turn your buyers into clients/subscribers without calls</p>
+          <p>The NEW 267 Word Productized Offer Doc to get full pay clients without calls</p>
+          <p>All for ONE payment of $40 saving 80% off retail pricing of $200.</p>
+          <p>Check the box now to add it to your order.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="label">Order Summary</div>
+    <table class="line">
+      <thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Amount</th></tr></thead>
+      <tbody id="summaryBody"><tr><td>Sell While You Sleep 2.0</td><td class="r">1</td><td class="r">$3.00</td></tr></tbody>
+    </table>
+    <div class="totals">
+      <div class="grand"><span>Order Total</span><span id="grandTotal">$3.00</span></div>
+    </div>
+
+    <!-- PAYMENT METHOD (Stripe Payment Element: card + Apple/Google Pay) -->
+    <div class="label">Payment Method</div>
+    <div id="payment-element"><!-- Stripe injects the card and wallet fields here --></div>
+    <div id="payment-error" class="pay-error" role="alert"></div>
+
+    <label class="agree">
+      <input type="checkbox">
+      <span>I understand that the strategies inside Sell While You Sleep 2.0 are powerful tools for building real businesses. I agree to use them ethically, deliver real value to my customers, and accept full responsibility for the offers I launch and the results I create.</span>
+    </label>
+
+    <button id="payBtn" class="btn btn-full" type="button">&#128722; Yes, I Want Access Now &#10145;&#65039;</button>
+
+    <p class="small center" style="margin-top:16px;">100% Secure &amp; Safe Payments</p>
+    <p class="center" style="font-weight:700;color:var(--primary);">You&rsquo;re Protected By Our Better Than Costco Lifetime Guarantee</p>
+
+    <div class="badges">
+      <span class="badge">Lifetime Money Back Guarantee</span>
+      <span class="badge">Trusted By 35,000+ Buyers &middot; $3M+ In Sales</span>
+    </div>
+    <div class="badges">
+      <span class="badge">Mastercard</span><span class="badge">Discover</span><span class="badge">Visa</span><span class="badge">Amex</span>
+    </div>
+    <div class="badges">
+      <span class="badge">McAfee Secure</span><span class="badge">TrustedSite</span><span class="badge">Norton</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: ORDER RECAP + BONUSES -->
+  <div class="panel recap">
+    <img src="assets/stack/offer-stack.webp" alt="Everything inside Sell While You Sleep 2.0: 5 core Parts plus 3 Fast-Start Bonuses" style="width:100%;display:block;border-radius:var(--radius);border:1px solid rgba(1,49,33,0.10);box-shadow:var(--shadow);margin-bottom:8px;">
+
+    <p class="congrats">&#127881; Congratulations!</p>
+    <h3 style="text-align:center;margin-top:0;">Here&rsquo;s Everything You&rsquo;re Getting In Sell While You Sleep 2.0:</h3>
+
+    <ul class="checks">
+      <li>The Path to 15+ Buyers Per Day in 1 Hour Per Week: see the entire buyer-first model before you build a single thing, so you don&rsquo;t waste weeks on the wrong offer</li>
+      <li>Your North Star Promise: the one line that determines if your offer prints money or dies on the page (get this right and the rest is paint-by-numbers)</li>
+      <li>The 437-Word Rapid Validation Page: the exact page Anna used to make her first $1,300 in sales. No upsells. No funnel wizardry. Just 437 words and a checkout button</li>
+      <li>The 24-Hour First Buyer Launch Plan: exactly what to launch, where to launch it, and what to do the moment your first sale rolls in</li>
+      <li>Google Doc walkthroughs + short videos for every Part so you can move fast (no membership area to wade through)</li>
+      <li>The proven methodology that&rsquo;s flipped 35,000+ strangers into buyers and helped clients generate $3M+ in sales across niches I knew nothing about</li>
+      <li>INSTANT lifetime access to everything plus 3 juicy bonuses below</li>
+    </ul>
+
+    <h3 style="text-align:center;">&#127873;&#127873;&#127873; Bonuses &#127873;&#127873;&#127873;</h3>
+
+    <div class="bonus-mini">
+      <div class="t">&#127873; Bonus #1: Lifetime Access to the North Star Promise Operator (12 uses)</div>
+      <p>Skip the thinking part entirely. My custom AI Operator builds your North Star Promise for you.</p>
+      <p>12 uses means you can install 12 different Semi-Passive Income Streams over time.</p>
+      <p>This alone is worth more than the price of the entire program.</p>
+      <div class="v">($7,997 value)</div>
+    </div>
+
+    <div class="bonus-mini">
+      <div class="t">&#127873; Bonus #2: The 437-Word Page Template + Claude Code/ChatGPT Install Instructions</div>
+      <p>The exact template that&rsquo;s done it.</p>
+      <p>&#128073; Drop it into Claude Code or ChatGPT</p>
+      <p>&#128073; Follow the install instructions</p>
+      <p>&#128073; Live validation page in minutes, not days</p>
+      <div class="v">($497 value)</div>
+    </div>
+
+    <div class="bonus-mini">
+      <div class="t">&#127873; Bonus #3: The North Star Promise Swipe File</div>
+      <p>50+ proven North Star Promise examples pulled from offers that have generated millions.</p>
+      <p>&#128073; Sorted by niche</p>
+      <p>&#128073; Steal the structure</p>
+      <p>&#128073; Plug in your own</p>
+      <div class="v">($497 value)</div>
+    </div>
+
+    <div class="guar-mini">
+      <strong>Better Than Costco Lifetime Guarantee</strong><br>
+      Get your first buyer in 24 hours or you don&rsquo;t pay.
+    </div>
+
+    <p class="small center">Need help? Contact us at support@effortlessscale.com</p>
+  </div>
+
+</div>
+
+<footer class="foot">
+  <img src="assets/full-white.svg" alt="Productized Coach">
+  <p>Zac Hansen &copy; 2026</p>
+  <p><a href="#">Privacy Policy</a> &middot; <a href="#">Terms &amp; Conditions</a></p>
+  <p>Built inside [Platform]</p>
+  <p>Need Help? Email my team at support@effortlessscale.com</p>
+</footer>
+
+<script>
+(function () {
+  // Base product is always in the order.
+  var PRODUCT = { label: 'Sell While You Sleep 2.0', cents: 300 };
+
+  var bumps = Array.prototype.slice.call(document.querySelectorAll('.bump-check'));
+  var summaryBody = document.getElementById('summaryBody');
+  var grandTotal = document.getElementById('grandTotal');
+
+  function fmt(cents) { return '$' + (cents / 100).toFixed(2); }
+  function selected() { return bumps.filter(function (b) { return b.checked; }); }
+
+  function recompute() {
+    var rows = '<tr><td>' + PRODUCT.label + '</td><td class="r">1</td><td class="r">' + fmt(PRODUCT.cents) + '</td></tr>';
+    var total = PRODUCT.cents;
+    selected().forEach(function (b) {
+      var c = parseInt(b.dataset.cents, 10);
+      rows += '<tr class="bump-line"><td>' + b.dataset.label + '</td><td class="r">1</td><td class="r">' + fmt(c) + '</td></tr>';
+      total += c;
+    });
+    summaryBody.innerHTML = rows;
+    grandTotal.textContent = fmt(total);
+  }
+
+  // Mutual exclusivity: the "bundle" bump cannot coexist with the two "single"
+  // bumps (it already contains both), so ticking one group clears the other.
+  bumps.forEach(function (b) {
+    b.addEventListener('change', function () {
+      if (b.checked) {
+        bumps.forEach(function (o) {
+          if (o !== b && o.dataset.excl !== b.dataset.excl) o.checked = false;
+        });
+      }
+      recompute();
+    });
+  });
+
+  // Expose the current selection for the (coming) Stripe call.
+  window.swysOrder = function () {
+    return {
+      productCents: PRODUCT.cents,
+      bumps: selected().map(function (b) {
+        return { id: b.dataset.id, label: b.dataset.label, cents: parseInt(b.dataset.cents, 10) };
+      }),
+      totalCents: PRODUCT.cents + selected().reduce(function (s, b) { return s + parseInt(b.dataset.cents, 10); }, 0)
+    };
+  };
+
+  recompute();
+})();
+</script>
+
+<!-- ===== Stripe embedded Payment Element ===== -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+(function () {
+  var RETURN_URL = window.location.origin + "/thank-you"; // where Stripe sends the buyer after payment
+  var errEl = document.getElementById('payment-error');
+  var payBtn = document.getElementById('payBtn');
+
+  // The publishable key is served by /api/config (read from the STRIPE_PUBLISHABLE_KEY
+  // env var in Vercel). Keeping BOTH keys in env means switching test <-> live is just an
+  // env change with no code edits.
+  fetch('/api/config')
+    .then(function (r) { return r.json(); })
+    .then(function (cfg) {
+      var pk = cfg && cfg.publishableKey;
+      if (!pk || pk.indexOf('pk_') !== 0) {
+        errEl.textContent = 'Checkout is not live yet: set STRIPE_PUBLISHABLE_KEY in your Vercel environment variables.';
+        return;
+      }
+      boot(pk);
+    })
+    .catch(function () {
+      errEl.textContent = 'Could not load payment configuration (is /api/config deployed?).';
+    });
+
+  function setBusy(b) { payBtn.disabled = b; }
+
+  function boot(pk) {
+    var order = window.swysOrder ? window.swysOrder() : { totalCents: 300, bumps: [] };
+    var stripe = Stripe(pk);
+    var elements = stripe.elements({
+      mode: 'payment',
+      amount: order.totalCents,
+      currency: 'usd',
+      appearance: {
+        theme: 'stripe',
+        variables: { colorPrimary: '#1C6E42', fontFamily: 'Work Sans, system-ui, sans-serif', borderRadius: '8px' }
+      }
+    });
+    elements.create('payment').mount('#payment-element');
+
+    // Keep the Stripe amount synced when order bumps are toggled.
+    Array.prototype.slice.call(document.querySelectorAll('.bump-check')).forEach(function (b) {
+      b.addEventListener('change', function () {
+        setTimeout(function () { elements.update({ amount: window.swysOrder().totalCents }); }, 0);
+      });
+    });
+
+    payBtn.addEventListener('click', async function () {
+      errEl.textContent = '';
+      var sel = window.swysOrder();
+      var name = (document.getElementById('custName') || {}).value || '';
+      var email = (document.getElementById('custEmail') || {}).value || '';
+      if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
+
+      setBusy(true);
+      try {
+        // 1) Validate the Payment Element fields.
+        var sub = await elements.submit();
+        if (sub.error) { errEl.textContent = sub.error.message; setBusy(false); return; }
+
+        // 2) Create the PaymentIntent server-side (amount computed from the trusted price map).
+        var resp = await fetch('/api/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bumps: sel.bumps.map(function (x) { return x.id; }),
+            name: name,
+            email: email
+          })
+        });
+        var data = await resp.json();
+        if (!resp.ok || !data.clientSecret) { errEl.textContent = data.error || 'Could not start payment.'; setBusy(false); return; }
+
+        // 3) Confirm the payment. On success Stripe redirects to RETURN_URL.
+        var result = await stripe.confirmPayment({
+          elements: elements,
+          clientSecret: data.clientSecret,
+          confirmParams: { return_url: RETURN_URL }
+        });
+        if (result.error) { errEl.textContent = result.error.message; setBusy(false); }
+      } catch (e) {
+        errEl.textContent = (e && e.message) || 'Something went wrong. Please try again.';
+        setBusy(false);
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+# Catalyst Funnel Engine
+
+Everything you need to build and launch a high-converting funnel — **without** a page
+builder or monthly funnel software. You own the code.
+
+- A proven **design system** with a full **component library**
+- A ready **sales page → checkout → thank-you** flow to fill in
+- A secure **Stripe checkout** (order bumps + server-side pricing) on Vercel
+- A **build guide + AI skill** so Claude Code / ChatGPT can help you assemble it
+- A complete **working example funnel** to study and copy
+
+---
+
+## Repository map
+
+```
+catalyst-funnel-engine/
+├─ README.md                 ← you are here
+├─ AGENTS.md                 ← rules for AI agents building in this repo
+├─ .claude/skills/
+│   └─ funnel-builder/       ← the "funnel-builder" skill (Claude Code)
+│
+├─ brand.css                 ← DESIGN SYSTEM: colors, fonts, every component
+├─ components.html           ← COMPONENT LIBRARY: open in a browser, copy blocks
+│
+├─ sales-page.html           ← STARTER funnel — fill in the [BRACKETS]
+├─ checkout.html             ← starter checkout (order bumps + Stripe)
+├─ thank-you.html            ← starter confirmation page
+│
+├─ api/
+│   ├─ create-payment-intent.js  ← CHECKOUT ENGINE: secure server-side pricing
+│   └─ config.js                 ← serves your publishable Stripe key
+├─ assets/                   ← your logo + emblem (placeholders to replace)
+├─ vercel.json               ← clean URLs + routing
+│
+└─ examples/
+    └─ swys-funnel/          ← a COMPLETE, real, working funnel to learn from
+```
+
+---
+
+## The fastest path (with AI)
+
+1. Open this repo in **Claude Code** (or point ChatGPT/Cursor at it).
+2. Say: *"Build my funnel."* The `funnel-builder` skill + `AGENTS.md` tell the AI
+   exactly how to use the engine.
+3. Give it your offer: the promise, who it's for, price, deliverables, bonuses, proof,
+   guarantee, support email.
+4. It fills in `sales-page.html` / `checkout.html`, wires the price into the API, and
+   previews it. You review the copy.
+
+## The manual path
+
+1. Open `components.html` in your browser — that's your parts catalog.
+2. In `sales-page.html`, replace every `[BRACKET]` with your copy. Keep the section
+   order (it's the proven flow); delete sections you don't need.
+3. In `checkout.html`, set your product name + price and edit/remove the order bumps.
+4. In `api/create-payment-intent.js`, set the same prices (in **cents**) and bump ids.
+   **The checkout and the API must agree.**
+5. Set your support email + confirmation copy in `thank-you.html`.
+6. Rebrand: replace the SVGs in `assets/`, then change the color/font **variables at
+   the top of `brand.css`** (don't hand-edit individual components).
+
+> Stuck on what "good" looks like? Open `examples/swys-funnel/` — it's a full, real
+> funnel built with these exact components.
+
+---
+
+## Deploy to Vercel
+
+1. Push this repo to GitHub → in [Vercel](https://vercel.com), **Add New → Project**
+   and import it.
+2. Add two **Environment Variables** (Settings → Environment Variables):
+   - `STRIPE_PUBLISHABLE_KEY` — your `pk_...` key
+   - `STRIPE_SECRET_KEY` — your `sk_...` key
+   Start with **test** keys, switch to **live** when ready.
+3. Deploy. Your funnel is live at `your-project.vercel.app`.
+4. Test with card `4242 4242 4242 4242` (any future expiry / any CVC) and confirm the
+   charge in your Stripe dashboard (test mode).
+
+---
+
+## Security (read this)
+
+- **Never** put your `sk_...` secret key in the code — it lives only in Vercel env vars
+  and is read server-side.
+- The order total is computed **on the server** from a trusted price map, so a tampered
+  browser can't change what a customer pays.
+- The thank-you page only reflects Stripe's redirect status. For bulletproof
+  fulfillment, add a Stripe **webhook** (not included) as the source of truth.
+
+## Local preview (optional)
+
+Static pages preview with any static server (checkout needs the Vercel functions + env
+vars to actually charge):
+
+```bash
+npx serve .          # or: python -m http.server 8080
+npx vercel dev       # to also run the Stripe functions locally
+```

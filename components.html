@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Component Library · Catalyst Funnel Engine</title>
+<link rel="icon" type="image/svg+xml" href="assets/emblem.svg">
+<link rel="stylesheet" href="brand.css">
+<style>
+  /* Styles for THIS reference page only (not part of the funnel). */
+  .cl-head{max-width:900px;margin:0 auto;padding:40px 22px 8px}
+  .cl-head h1{margin:0 0 6px}
+  .cl-note{color:var(--muted);font-size:15px}
+  .cl-block{max-width:900px;margin:0 auto;padding:14px 22px 40px;border-bottom:1px solid rgba(1,49,33,.12)}
+  .cl-label{display:inline-block;font-family:var(--font-body);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--secondary);border-radius:6px;padding:4px 10px;margin:8px 0 4px}
+  .cl-class{font-family:var(--font-mono,ui-monospace,Menlo,monospace);font-size:13px;color:var(--primary);background:#eef4f0;border-radius:6px;padding:2px 7px}
+  .cl-demo{margin-top:14px}
+</style>
+</head>
+<body>
+
+<div class="cl-head">
+  <h1>Component Library</h1>
+  <p class="cl-note">Every reusable block in the engine, rendered live. Find the block you want, copy its markup from this file, and paste it into your <code>sales-page.html</code> / <code>checkout.html</code>. All styling comes from <code>brand.css</code> — change colors/fonts there once and every component updates.</p>
+</div>
+
+<!-- ══ TRUST BAR ══ -->
+<div class="cl-block">
+  <span class="cl-label">Trust bar</span> <span class="cl-class">.trustbar</span>
+  <div class="cl-demo">
+    <div class="trustbar">Trusted By 5,000+ Customers &amp; Clients</div>
+  </div>
+</div>
+
+<!-- ══ HEADLINE + HIGHLIGHT ══ -->
+<div class="cl-block">
+  <span class="cl-label">Headline + highlight</span> <span class="cl-class">h1 / h2 / .hl</span>
+  <div class="cl-demo wrap">
+    <h1>A Big Promise With A <span class="hl">Highlighted Result</span> Inside It</h1>
+    <h2>A Section Headline</h2>
+  </div>
+</div>
+
+<!-- ══ BREAKING BAR ══ -->
+<div class="cl-block">
+  <span class="cl-label">Breaking bar</span> <span class="cl-class">.breaking</span>
+  <div class="cl-demo wrap">
+    <div class="breaking">
+      <span class="breaking__tag"><span class="dot"></span>Breaking</span>
+      <p class="breaking__text">A one-line pattern interrupt or big news hook.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BUTTONS / CTA BLOCK ══ -->
+<div class="cl-block">
+  <span class="cl-label">CTA button</span> <span class="cl-class">.cta-block / .btn / .pulse / .btn-sub / .btn-micro</span>
+  <div class="cl-demo wrap">
+    <div class="cta-block">
+      <a class="btn pulse" href="#">Primary Button With Pulse &rsaquo;
+        <span class="btn-sub">Sub-line under the button</span>
+      </a>
+      <div class="btn-micro">Micro reassurance line · guarantee · instant access</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RATING ══ -->
+<div class="cl-block">
+  <span class="cl-label">Star rating</span> <span class="cl-class">.rating / .stars</span>
+  <div class="cl-demo wrap">
+    <div class="rating">
+      <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span class="rating-text"><strong>4.9/5</strong> from 5,000+ buyers &amp; clients</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VIDEO SLOT ══ -->
+<div class="cl-block">
+  <span class="cl-label">Video / media slot</span> <span class="cl-class">.hero-vsl / .media / .media__slot</span>
+  <div class="cl-demo wrap">
+    <figure class="hero-vsl">
+      <div class="media media--wide">
+        <div class="media__slot">VIDEO SALES LETTER<small>Replace with your video embed</small></div>
+      </div>
+      <figcaption class="hero-vsl__cap">&#9654; Watch the breakdown</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- ══ STAT BAR ══ -->
+<div class="cl-block">
+  <span class="cl-label">Stat bar</span> <span class="cl-class">.statbar / .stat</span>
+  <div class="cl-demo wrap">
+    <div class="statbar">
+      <div class="stat"><span class="stat__num">$3M+</span><span class="stat__label">In sales</span></div>
+      <div class="stat"><span class="stat__num">35,000+</span><span class="stat__label">Buyers</span></div>
+      <div class="stat"><span class="stat__num">4.9&#9733;</span><span class="stat__label">Rating</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COMPARE (old vs new) ══ -->
+<div class="cl-block">
+  <span class="cl-label">Old-way vs new-way</span> <span class="cl-class">.compare / .compare__old / .compare__new</span>
+  <div class="cl-demo wrap">
+    <div class="compare">
+      <div class="compare__col compare__old">
+        <h4>The old way:</h4>
+        <ul><li>Pain point</li><li>Pain point</li><li>Pain point</li></ul>
+      </div>
+      <div class="compare__col compare__new">
+        <h4>The new way:</h4>
+        <ul><li>Benefit</li><li>Benefit</li><li>Benefit</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHECK LIST ══ -->
+<div class="cl-block">
+  <span class="cl-label">Benefit checklist</span> <span class="cl-class">.checks / .checks--point</span>
+  <div class="cl-demo wrap">
+    <ul class="checks">
+      <li>A deliverable framed as an outcome</li>
+      <li>Another deliverable framed as an outcome</li>
+      <li>One more deliverable</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══ PROOF WALL ══ -->
+<div class="cl-block">
+  <span class="cl-label">Proof wall</span> <span class="cl-class">.proof-wall + &lt;img&gt;</span>
+  <div class="cl-demo wrap">
+    <div class="proof-wall">
+      <div class="ph-img">[ Screenshot ]</div>
+      <div class="ph-img">[ Screenshot ]</div>
+      <div class="ph-img">[ Screenshot ]</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BONUS BOX ══ -->
+<div class="cl-block">
+  <span class="cl-label">Bonus box</span> <span class="cl-class">.box.bonus / .bonus__eyebrow / .bonus__body</span>
+  <div class="cl-demo wrap">
+    <div class="box bonus">
+      <div class="ph-img ph-img--bonus">[ Bonus image ]</div>
+      <div class="bonus__body">
+        <span class="bonus__eyebrow">Bonus #1</span>
+        <h3>Bonus Name</h3>
+        <p><em>One-line promise of this bonus.</em></p>
+        <ul class="checks checks--point"><li>Bullet</li><li>Bullet</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TESTIMONIAL ══ -->
+<div class="cl-block">
+  <span class="cl-label">Testimonial / case study</span> <span class="cl-class">.testi-grid / .testi</span>
+  <div class="cl-demo wrap">
+    <div class="testi-grid">
+      <div class="testi">
+        <span class="testi__niche">Niche · Example</span>
+        <div class="testi__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;A short, specific testimonial quote.&rdquo;</p>
+        <span class="testi__chip">Result chip</span>
+        <div class="testi__by">Name · Title</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STEPS ══ -->
+<div class="cl-block">
+  <span class="cl-label">Numbered steps</span> <span class="cl-class">ol.steps</span>
+  <div class="cl-demo wrap">
+    <ol class="steps"><li>First step</li><li>Second step</li><li>Third step</li></ol>
+  </div>
+</div>
+
+<!-- ══ GUARANTEE ══ -->
+<div class="cl-block">
+  <span class="cl-label">Guarantee box</span> <span class="cl-class">.guarantee</span>
+  <div class="cl-demo wrap">
+    <div class="guarantee">
+      <h3>Your Guarantee Name</h3>
+      <p>Guarantee terms go here, plus your support email.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRICE ANCHOR ══ -->
+<div class="cl-block">
+  <span class="cl-label">Price anchor</span> <span class="cl-class">.anchor / .was / .now</span>
+  <div class="cl-demo wrap">
+    <div class="anchor">
+      <p style="margin:0;">What this is really worth:</p>
+      <div class="was">$19,997</div>
+      <p style="margin:14px 0 0;">Your Price Today:</p>
+      <div class="now">Just $3</div>
+      <div class="cta-block" style="margin:18px 0 0;"><a class="btn" href="#">Get Access &#8594;</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FAQ ══ -->
+<div class="cl-block">
+  <span class="cl-label">FAQ accordion</span> <span class="cl-class">details.faq</span>
+  <div class="cl-demo wrap">
+    <details class="faq"><summary>A frequently asked question?</summary><div class="faq-body"><p>The answer, written to overcome the objection.</p></div></details>
+    <details class="faq"><summary>Another question?</summary><div class="faq-body"><p>Another answer.</p></div></details>
+  </div>
+</div>
+
+<!-- ══ ORDER BUMP ══ -->
+<div class="cl-block">
+  <span class="cl-label">Order bump (checkout)</span> <span class="cl-class">.bump — see checkout.html for the JS wiring</span>
+  <div class="cl-demo wrap" style="max-width:560px">
+    <div style="border:2px solid var(--secondary);border-radius:var(--radius);padding:18px;background:#F2F8F4">
+      <span style="display:inline-block;background:var(--secondary);color:#fff;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:8px">&#9889; Order Bump</span>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <input type="checkbox" style="margin-top:5px;transform:scale(1.35);accent-color:var(--secondary)">
+        <div>
+          <span style="font-weight:800;color:var(--primary)">YES, add this upgrade</span>
+          <span style="display:inline-block;background:var(--secondary);color:#fff;font-weight:800;font-size:13px;border-radius:6px;padding:2px 9px;margin-left:6px">+ $25</span>
+          <p style="font-size:15px;margin:8px 0">A short, punchy order-bump pitch.</p>
+        </div>
+      </div>
+    </div>
+    <p class="cl-note" style="margin-top:8px">⚠ The <code>data-id</code> / <code>data-cents</code> on the checkbox must match <code>api/create-payment-intent.js</code>.</p>
+  </div>
+</div>
+
+<footer class="foot">
+  <img src="assets/logo-light.svg" alt="Your Brand">
+  <p>Catalyst Funnel Engine · Component Library</p>
+</footer>
+
+</body>
+</html>

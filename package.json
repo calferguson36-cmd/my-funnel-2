@@ -1,0 +1,9 @@
+{
+  "name": "catalyst-funnel-engine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Catalyst funnel engine template — static sales page + Stripe checkout (serverless). White-label starter you fill in with your own offer.",
+  "dependencies": {
+    "stripe": "^17.5.0"
+  }
+}
