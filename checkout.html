@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[Your Offer Name] — Checkout</title>
+<title>Limitless Flow States — Checkout</title>
 <link rel="icon" type="image/svg+xml" href="assets/emblem.svg">
 <link rel="stylesheet" href="brand.css">
 <style>
@@ -63,20 +63,19 @@
 
 <!-- ============================================================================
   CHECKOUT TEMPLATE
-  1. Edit the product name + price everywhere marked [ ].
-  2. Order bumps: keep, edit, or delete. The data-id / data-cents on each checkbox
-     MUST match api/create-payment-intent.js (ids: bump-1, bump-2, bundle).
-  3. data-excl groups mutual exclusivity: "single" bumps vs the "bundle".
+  No order bumps on this offer — base product only. To add bumps back later,
+  see the .bump component in components.html; data-id must match
+  api/create-payment-intent.js.
 ============================================================================= -->
 
 <div class="co-trust">
-  <span>&#128181; [Your Offer Name]</span>
+  <span>&#128181; Limitless Flow States</span>
   <span>&#128274; 100% Secure Order</span>
-  <span>&#127873; [Bonuses included]</span>
+  <span>&#127873; 5 Free Bonuses Included</span>
 </div>
 
 <header class="co-head">
-  <img src="assets/logo-dark.svg" alt="[Your Brand]">
+  <img src="assets/logo-dark.svg" alt="Limitless Flow States">
 </header>
 
 <div class="co-grid">
@@ -92,51 +91,17 @@
     <div class="label">Payment</div>
     <table class="line">
       <thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Price</th></tr></thead>
-      <tbody><tr><td>[Your Offer Name]</td><td class="r">1</td><td class="r">[$3.00]</td></tr></tbody>
+      <tbody><tr><td>Limitless Flow States</td><td class="r">1</td><td class="r">$14.95</td></tr></tbody>
     </table>
-
-    <!-- ORDER BUMP #1 (data-id must match the API) -->
-    <div class="bump">
-      <span class="bump-flag">&#9889; Order Bump #1</span>
-      <div class="bump-head">
-        <input type="checkbox" class="bump-check" data-id="bump-1" data-cents="2500" data-label="Order Bump #1" data-excl="single">
-        <div>
-          <span class="bump-title">[YES, add order bump #1 headline]</span> <span class="bump-price">+ $25</span>
-          <p>[Order bump #1 pitch — 2–4 short lines.]</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ORDER BUMP #2 -->
-    <div class="bump">
-      <div class="bump-head">
-        <input type="checkbox" class="bump-check" data-id="bump-2" data-cents="2700" data-label="Order Bump #2" data-excl="single">
-        <div>
-          <span class="bump-title">[Order bump #2 headline]</span> <span class="bump-price">+ $27</span>
-          <p>[Order bump #2 pitch.]</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- BUNDLE (excludes the two singles) -->
-    <div class="bump">
-      <div class="bump-head">
-        <input type="checkbox" class="bump-check" data-id="bundle" data-cents="4000" data-label="Bundle: Bump #1 + Bump #2" data-excl="bundle">
-        <div>
-          <span class="bump-title">[Bundle both and save]</span> <span class="bump-price">+ $40</span>
-          <p>[Bundle pitch — the "take my money" option.]</p>
-        </div>
-      </div>
-    </div>
 
     <!-- ORDER SUMMARY -->
     <div class="label">Order Summary</div>
     <table class="line">
       <thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Amount</th></tr></thead>
-      <tbody id="summaryBody"><tr><td>[Your Offer Name]</td><td class="r">1</td><td class="r">[$3.00]</td></tr></tbody>
+      <tbody id="summaryBody"><tr><td>Limitless Flow States</td><td class="r">1</td><td class="r">$14.95</td></tr></tbody>
     </table>
     <div class="totals">
-      <div class="grand"><span>Order Total</span><span id="grandTotal">[$3.00]</span></div>
+      <div class="grand"><span>Order Total</span><span id="grandTotal">$14.95</span></div>
     </div>
 
     <!-- PAYMENT METHOD (Stripe Payment Element: card + Apple/Google Pay) -->
@@ -146,17 +111,17 @@
 
     <label class="agree">
       <input type="checkbox">
-      <span>[Terms agreement line.]</span>
+      <span>I agree to the Terms &amp; Conditions and Privacy Policy.</span>
     </label>
 
     <button id="payBtn" class="btn btn-full" type="button">&#128722; Yes, I Want Access Now &#10145;&#65039;</button>
 
     <p class="small center" style="margin-top:16px;">100% Secure &amp; Safe Payments</p>
-    <p class="center" style="font-weight:700;color:var(--primary);">[You're protected by our guarantee]</p>
+    <p class="center" style="font-weight:700;color:var(--primary);">You&rsquo;re protected by the Pay-If-It-Works Guarantee</p>
 
     <div class="badges">
-      <span class="badge">[Money Back Guarantee]</span>
-      <span class="badge">[Trust stat]</span>
+      <span class="badge">Pay-If-It-Works Guarantee</span>
+      <span class="badge">Instant Access</span>
     </div>
     <div class="badges">
       <span class="badge">Mastercard</span><span class="badge">Discover</span><span class="badge">Visa</span><span class="badge">Amex</span>
@@ -165,59 +130,63 @@
 
   <!-- RIGHT: ORDER RECAP + BONUSES -->
   <div class="panel recap">
-    <div class="ph-img ph-img--stack" style="margin-bottom:8px;">[ Offer-stack image ]</div>
+    <div class="ph-img ph-img--stack" style="margin-bottom:8px;">[ Offer graphic ]</div>
 
     <p class="congrats">&#127881; Congratulations!</p>
     <h3 style="text-align:center;margin-top:0;">Here&rsquo;s Everything You&rsquo;re Getting:</h3>
 
     <ul class="checks">
-      <li>[Deliverable 1]</li>
-      <li>[Deliverable 2]</li>
-      <li>[Deliverable 3]</li>
-      <li>[Deliverable 4]</li>
+      <li>Limitless Flow States (the full 20-minute guided routine)</li>
     </ul>
 
-    <h3 style="text-align:center;">&#127873; Bonuses &#127873;</h3>
+    <h3 style="text-align:center;">&#127873; 5 Free Bonuses &#127873;</h3>
 
     <div class="bonus-mini">
-      <div class="t">&#127873; Bonus #1: [Name]</div>
-      <p>[One-line description.]</p>
-      <div class="v">([$X] value)</div>
+      <div class="t">&#127873; The Pre-Call Reset</div>
+      <p>Kill the pre-call nerves and walk in steady.</p>
     </div>
 
     <div class="bonus-mini">
-      <div class="t">&#127873; Bonus #2: [Name]</div>
-      <p>[One-line description.]</p>
-      <div class="v">([$X] value)</div>
+      <div class="t">&#127873; The Decision Drop</div>
+      <p>Make the decision you&rsquo;ve been circling for weeks.</p>
     </div>
 
     <div class="bonus-mini">
-      <div class="t">&#127873; Bonus #3: [Name]</div>
-      <p>[One-line description.]</p>
-      <div class="v">([$X] value)</div>
+      <div class="t">&#127873; The Procrastination Breaker</div>
+      <p>Break the avoidance loop and take the first swing today.</p>
+    </div>
+
+    <div class="bonus-mini">
+      <div class="t">&#127873; The 2pm Reboot</div>
+      <p>A second wind from breath chemistry instead of a third coffee.</p>
+    </div>
+
+    <div class="bonus-mini">
+      <div class="t">&#127873; The Switch-Off</div>
+      <p>An end-of-day wind-down that draws the line between work and home.</p>
     </div>
 
     <div class="guar-mini">
-      <strong>[Your Guarantee Name]</strong><br>
-      [Guarantee one-liner.]
+      <strong>Pay-If-It-Works Guarantee</strong><br>
+      No monumental progress in 24 hours, no charge.
     </div>
 
-    <p class="small center">Need help? Contact us at [support@yourdomain.com]</p>
+    <p class="small center">Need help? Contact us at <a href="mailto:calferguson36@gmail.com">calferguson36@gmail.com</a></p>
   </div>
 
 </div>
 
 <footer class="foot">
-  <img src="assets/logo-light.svg" alt="[Your Brand]">
-  <p>[Your Name] &copy; 2026</p>
+  <img src="assets/logo-light.svg" alt="Limitless Flow States">
+  <p>Limitless Flow States &copy; 2026</p>
   <p><a href="#">Privacy Policy</a> &middot; <a href="#">Terms &amp; Conditions</a></p>
-  <p>Need Help? Email [support@yourdomain.com]</p>
+  <p>Need Help? Email <a href="mailto:calferguson36@gmail.com">calferguson36@gmail.com</a></p>
 </footer>
 
 <script>
 (function () {
   // Base product is always in the order. Keep cents in sync with the API price map.
-  var PRODUCT = { label: '[Your Offer Name]', cents: 300 };
+  var PRODUCT = { label: 'Limitless Flow States', cents: 1495 };
 
   var bumps = Array.prototype.slice.call(document.querySelectorAll('.bump-check'));
   var summaryBody = document.getElementById('summaryBody');
@@ -294,7 +263,7 @@
   function setBusy(b) { payBtn.disabled = b; }
 
   function boot(pk) {
-    var order = window.funnelOrder ? window.funnelOrder() : { totalCents: 300, bumps: [] };
+    var order = window.funnelOrder ? window.funnelOrder() : { totalCents: 1495, bumps: [] };
     var stripe = Stripe(pk);
     var elements = stripe.elements({
       mode: 'payment',

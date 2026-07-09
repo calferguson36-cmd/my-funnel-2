@@ -15,25 +15,17 @@
 const Stripe = require('stripe');
 
 // Main offer price, in cents.  (Example: 300 = $3.00)
-const PRODUCT_CENTS = 300;
-const PRODUCT_LABEL = 'Your Main Offer';
+const PRODUCT_CENTS = 1495;
+const PRODUCT_LABEL = 'Limitless Flow States';
 
 // Optional order bumps, in cents.  Delete entries you don't need.
-const BUMP_CENTS = {
-  'bump-1': 2500, // Example order bump #1
-  'bump-2': 2700, // Example order bump #2
-  'bundle': 4000, // Example "both bumps" bundle
-};
+const BUMP_CENTS = {};
 
 // Human-readable labels (used in the charge description + receipt).
-const LABELS = {
-  'bump-1': 'Order Bump #1',
-  'bump-2': 'Order Bump #2',
-  'bundle': 'Bundle: Bump #1 + Bump #2',
-};
+const LABELS = {};
 
-// The bundle already includes both singles, so it can't be combined with them.
-const SINGLES = ['bump-1', 'bump-2'];
+// No bundle in this funnel — no order bumps at all.
+const SINGLES = [];
 
 const usd = (cents) => '$' + (cents / 100).toFixed(2);
 

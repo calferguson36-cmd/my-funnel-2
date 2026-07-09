@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" role="img" aria-label="Your Logo emblem">
-  <rect width="48" height="48" rx="12" fill="#013121"/>
-  <text x="24" y="32" text-anchor="middle" font-family="'Work Sans',system-ui,sans-serif" font-size="22" font-weight="800" fill="#ffffff">Y</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="Callum Ferguson emblem">
+  <circle cx="40" cy="40" r="40" fill="#132436"/>
+  <circle cx="40" cy="40" r="29" fill="none" stroke="#d9b876" stroke-width="1.6"/>
+  <circle cx="40" cy="40" r="20" fill="none" stroke="#d9b876" stroke-width="1.6"/>
+  <circle cx="40" cy="40" r="11" fill="none" stroke="#d9b876" stroke-width="2.2"/>
 </svg>
