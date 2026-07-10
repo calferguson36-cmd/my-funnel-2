@@ -78,6 +78,24 @@ catalyst-funnel-engine/
 4. Test with card `4242 4242 4242 4242` (any future expiry / any CVC) and confirm the
    charge in your Stripe dashboard (test mode).
 
+### Questionnaire → Google Sheets (optional)
+
+The thank-you page's "Help Me Build This" questionnaire saves answers to a Google
+Sheet via `api/save-questionnaire.js`. Full setup steps are in the comment at the top
+of that file; in short:
+
+1. Google Cloud Console → new project → enable the **Google Sheets API**.
+2. Create a **Service Account** → generate a JSON key.
+3. Create a Sheet, share it with the service account's email (from the JSON) as Editor.
+4. Add three more **Environment Variables** in Vercel:
+   - `GOOGLE_SERVICE_ACCOUNT_EMAIL` — the JSON's `client_email`
+   - `GOOGLE_PRIVATE_KEY` — the JSON's `private_key`
+   - `GOOGLE_SHEET_ID` — from the Sheet's URL
+5. Redeploy. Each submission appends a row: timestamp, answer 1, answer 2, answer 3.
+
+Until these are set, the button falls back to a pre-filled `mailto:` so answers still
+reach you.
+
 ---
 
 ## Security (read this)

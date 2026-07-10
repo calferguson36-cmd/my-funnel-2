@@ -14,6 +14,15 @@
   .ty h1 { margin: 0 0 14px; }
   .ty p { color: var(--text); font-size: 18px; }
   .ty .status { font-weight: 700; color: var(--secondary); margin-bottom: 8px; }
+  .q-card { margin-top: 24px; text-align: left; }
+  .q-card h2 { margin: 0 0 10px; text-align: center; }
+  .q-card > p.lead-in { text-align: center; font-size: 16px; margin-bottom: 24px; }
+  .q-group { margin: 4px 0 20px; }
+  .q-group .q-title { font-weight: 700; color: var(--primary); font-size: 15px; margin: 0 0 8px; }
+  .q-option { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; padding: 5px 0; cursor: pointer; }
+  .q-option input { margin-top: 3px; accent-color: var(--secondary); }
+  .field { width: 100%; padding: 13px 14px; border: 1px solid rgba(50,49,46,0.25); border-radius: 8px; font-family: var(--font-body); font-size: 16px; background: var(--bg); }
+  .q-sent { display: none; color: var(--secondary); font-weight: 700; margin-top: 12px; }
 </style>
 </head>
 <body>
@@ -21,8 +30,36 @@
     <img src="assets/logo-dark.svg" alt="Limitless Flow States">
     <div class="card">
       <p class="status" id="status">Confirming your order&hellip;</p>
-      <h1>You&rsquo;re in.</h1>
-      <p>Your order is confirmed. Check your inbox for your login details, then press play on your 20-minute Limitless Flow States routine before your next big block of work. Need anything? Email <a href="mailto:calferguson36@gmail.com">calferguson36@gmail.com</a>.</p>
+      <h1>Thank you.</h1>
+      <p>Your order is confirmed and I&rsquo;m building Limitless Flow States right now &mdash; it&rsquo;ll be ready by <strong>July 27, 2026</strong>. I&rsquo;ll email it to you the moment it&rsquo;s live. Need anything in the meantime? Email <a href="mailto:calferguson36@gmail.com">calferguson36@gmail.com</a>.</p>
+    </div>
+
+    <div class="card q-card">
+      <h2>Help Me Build This</h2>
+      <p class="lead-in">It would be super helpful if you could answer a couple of quick questions below so I can build exactly what you need.</p>
+
+      <div class="q-group">
+        <p class="q-title">What&rsquo;s the #1 moment your mind won&rsquo;t shut up?</p>
+        <label class="q-option"><input type="radio" name="q1" value="Before a big sales call or presentation"> Before a big sales call or presentation</label>
+        <label class="q-option"><input type="radio" name="q1" value="A tough decision I keep circling"> A tough decision I keep circling</label>
+        <label class="q-option"><input type="radio" name="q1" value="The mid-afternoon crash"> The mid-afternoon crash</label>
+        <label class="q-option"><input type="radio" name="q1" value="The moment I sit down to do deep work"> The moment I sit down to do deep work</label>
+      </div>
+
+      <div class="q-group">
+        <p class="q-title">What device will you use this on most?</p>
+        <label class="q-option"><input type="radio" name="q2" value="Phone"> Phone</label>
+        <label class="q-option"><input type="radio" name="q2" value="Laptop or desktop"> Laptop or desktop</label>
+        <label class="q-option"><input type="radio" name="q2" value="Both"> Both</label>
+      </div>
+
+      <div class="q-group">
+        <p class="q-title">Anything specific you want the routine to help with? (optional)</p>
+        <textarea id="q3" class="field" rows="3" placeholder="Optional — tell me more"></textarea>
+      </div>
+
+      <button id="sendAnswers" class="btn btn-full" type="button">Send My Answers &rarr;</button>
+      <p class="small center q-sent" id="qSent">Thanks &mdash; your email app should be open with your answers ready to send.</p>
     </div>
   </div>
 
@@ -38,6 +75,53 @@
       if (s === 'succeeded') el.textContent = 'Payment successful ✓';
       else if (s) el.textContent = 'Payment status: ' + s;
       else el.style.display = 'none';
+    })();
+  </script>
+
+  <script>
+    // Saves answers to a Google Sheet via /api/save-questionnaire. If that
+    // request fails (e.g. env vars not set up yet), falls back to a pre-filled
+    // mailto so the answers aren't lost.
+    (function () {
+      var btn = document.getElementById('sendAnswers');
+      var sentMsg = document.getElementById('qSent');
+      if (!btn) return;
+
+      function mailtoFallback(q1, q2, q3) {
+        var subject = encodeURIComponent('Limitless Flow States — Questionnaire');
+        var body = encodeURIComponent(
+          'What’s the #1 moment your mind won’t shut up?\n' + q1 +
+          '\n\nWhat device will you use this on most?\n' + q2 +
+          '\n\nAnything specific you want the routine to help with?\n' + q3
+        );
+        window.location.href = 'mailto:calferguson36@gmail.com?subject=' + subject + '&body=' + body;
+      }
+
+      btn.addEventListener('click', async function () {
+        var q1 = (document.querySelector('input[name="q1"]:checked') || {}).value || '(not answered)';
+        var q2 = (document.querySelector('input[name="q2"]:checked') || {}).value || '(not answered)';
+        var q3 = (document.getElementById('q3') || {}).value || '(not answered)';
+
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        try {
+          var resp = await fetch('/api/save-questionnaire', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ q1: q1, q2: q2, q3: q3 })
+          });
+          if (!resp.ok) throw new Error('save failed');
+          btn.textContent = 'Sent ✓';
+          sentMsg.textContent = 'Thanks — your answers are in!';
+          sentMsg.style.display = 'block';
+        } catch (e) {
+          btn.disabled = false;
+          btn.textContent = 'Send My Answers →';
+          mailtoFallback(q1, q2, q3);
+          sentMsg.textContent = 'Sent a fallback email instead — check your email app.';
+          sentMsg.style.display = 'block';
+        }
+      });
     })();
   </script>
 </body>

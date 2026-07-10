@@ -4,6 +4,7 @@
   "private": true,
   "description": "Catalyst funnel engine template — static sales page + Stripe checkout (serverless). White-label starter you fill in with your own offer.",
   "dependencies": {
-    "stripe": "^17.5.0"
+    "stripe": "^17.5.0",
+    "googleapis": "^144.0.0"
   }
 }

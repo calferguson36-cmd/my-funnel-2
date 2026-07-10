@@ -91,17 +91,18 @@
     <div class="label">Payment</div>
     <table class="line">
       <thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Price</th></tr></thead>
-      <tbody><tr><td>Limitless Flow States</td><td class="r">1</td><td class="r">$14.95</td></tr></tbody>
+      <tbody><tr><td>Limitless Flow States</td><td class="r">1</td><td class="r">A$14.95</td></tr></tbody>
     </table>
 
     <!-- ORDER SUMMARY -->
     <div class="label">Order Summary</div>
     <table class="line">
       <thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Amount</th></tr></thead>
-      <tbody id="summaryBody"><tr><td>Limitless Flow States</td><td class="r">1</td><td class="r">$14.95</td></tr></tbody>
+      <tbody id="summaryBody"><tr><td>Limitless Flow States</td><td class="r">1</td><td class="r">A$14.95</td></tr></tbody>
     </table>
     <div class="totals">
-      <div class="grand"><span>Order Total</span><span id="grandTotal">$14.95</span></div>
+      <div class="grand"><span>Order Total</span><span id="grandTotal">A$14.95</span></div>
+      <p class="small" style="margin:6px 0 0;">All prices in AUD.</p>
     </div>
 
     <!-- PAYMENT METHOD (Stripe Payment Element: card + Apple/Google Pay) -->
@@ -192,7 +193,7 @@
   var summaryBody = document.getElementById('summaryBody');
   var grandTotal = document.getElementById('grandTotal');
 
-  function fmt(cents) { return '$' + (cents / 100).toFixed(2); }
+  function fmt(cents) { return 'A$' + (cents / 100).toFixed(2); }
   function selected() { return bumps.filter(function (b) { return b.checked; }); }
 
   function recompute() {
@@ -268,7 +269,7 @@
     var elements = stripe.elements({
       mode: 'payment',
       amount: order.totalCents,
-      currency: 'usd',
+      currency: 'aud',
       appearance: {
         theme: 'stripe',
         variables: { colorPrimary: '#1C6E42', fontFamily: 'Work Sans, system-ui, sans-serif', borderRadius: '8px' }
