@@ -39,23 +39,23 @@
       <p class="lead-in">It would be super helpful if you could answer a couple of quick questions below so I can build exactly what you need.</p>
 
       <div class="q-group">
-        <p class="q-title">What&rsquo;s the #1 moment your mind won&rsquo;t shut up?</p>
-        <label class="q-option"><input type="radio" name="q1" value="Before a big sales call or presentation"> Before a big sales call or presentation</label>
-        <label class="q-option"><input type="radio" name="q1" value="A tough decision I keep circling"> A tough decision I keep circling</label>
-        <label class="q-option"><input type="radio" name="q1" value="The mid-afternoon crash"> The mid-afternoon crash</label>
-        <label class="q-option"><input type="radio" name="q1" value="The moment I sit down to do deep work"> The moment I sit down to do deep work</label>
+        <p class="q-title">Where does this hit hardest for you right now?</p>
+        <label class="q-option"><input type="radio" name="area" value="Before a big sales call or presentation"> Before a big sales call or presentation</label>
+        <label class="q-option"><input type="radio" name="area" value="A decision I keep circling"> A decision I keep circling</label>
+        <label class="q-option"><input type="radio" name="area" value="The mid-afternoon crash"> The mid-afternoon crash</label>
+        <label class="q-option"><input type="radio" name="area" value="The moment I sit down to do deep work"> The moment I sit down to do deep work</label>
+        <label class="q-option"><input type="radio" name="area" value="Something else"> Something else</label>
+        <textarea id="areaDesc" class="field" rows="3" placeholder="Describe what that actually looks like for you, in your own words" style="margin-top:10px;"></textarea>
       </div>
 
       <div class="q-group">
-        <p class="q-title">What device will you use this on most?</p>
-        <label class="q-option"><input type="radio" name="q2" value="Phone"> Phone</label>
-        <label class="q-option"><input type="radio" name="q2" value="Laptop or desktop"> Laptop or desktop</label>
-        <label class="q-option"><input type="radio" name="q2" value="Both"> Both</label>
+        <p class="q-title">Walk me through a recent time this got in your way. What actually happened?</p>
+        <textarea id="example" class="field" rows="3" placeholder="Tell me the real story — as much detail as you like"></textarea>
       </div>
 
       <div class="q-group">
-        <p class="q-title">Anything specific you want the routine to help with? (optional)</p>
-        <textarea id="q3" class="field" rows="3" placeholder="Optional — tell me more"></textarea>
+        <p class="q-title">If this worked exactly like you&rsquo;re hoping, what would be different for you in 30 days?</p>
+        <textarea id="outcome" class="field" rows="3" placeholder="In your own words — what changes for you"></textarea>
       </div>
 
       <button id="sendAnswers" class="btn btn-full" type="button">Send My Answers &rarr;</button>
@@ -87,20 +87,22 @@
       var sentMsg = document.getElementById('qSent');
       if (!btn) return;
 
-      function mailtoFallback(q1, q2, q3) {
+      function mailtoFallback(area, areaDesc, example, outcome) {
         var subject = encodeURIComponent('Limitless Flow States — Questionnaire');
         var body = encodeURIComponent(
-          'What’s the #1 moment your mind won’t shut up?\n' + q1 +
-          '\n\nWhat device will you use this on most?\n' + q2 +
-          '\n\nAnything specific you want the routine to help with?\n' + q3
+          'Where does this hit hardest?\n' + area +
+          '\n\nDescribed in their own words:\n' + areaDesc +
+          '\n\nA recent example:\n' + example +
+          '\n\nWhat they want to be different in 30 days:\n' + outcome
         );
         window.location.href = 'mailto:calferguson36@gmail.com?subject=' + subject + '&body=' + body;
       }
 
       btn.addEventListener('click', async function () {
-        var q1 = (document.querySelector('input[name="q1"]:checked') || {}).value || '(not answered)';
-        var q2 = (document.querySelector('input[name="q2"]:checked') || {}).value || '(not answered)';
-        var q3 = (document.getElementById('q3') || {}).value || '(not answered)';
+        var area = (document.querySelector('input[name="area"]:checked') || {}).value || '(not answered)';
+        var areaDesc = (document.getElementById('areaDesc') || {}).value || '(not answered)';
+        var example = (document.getElementById('example') || {}).value || '(not answered)';
+        var outcome = (document.getElementById('outcome') || {}).value || '(not answered)';
 
         btn.disabled = true;
         btn.textContent = 'Sending…';
@@ -108,7 +110,7 @@
           var resp = await fetch('/api/save-questionnaire', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ q1: q1, q2: q2, q3: q3 })
+            body: JSON.stringify({ area: area, areaDesc: areaDesc, example: example, outcome: outcome })
           });
           if (!resp.ok) throw new Error('save failed');
           btn.textContent = 'Sent ✓';
@@ -117,7 +119,7 @@
         } catch (e) {
           btn.disabled = false;
           btn.textContent = 'Send My Answers →';
-          mailtoFallback(q1, q2, q3);
+          mailtoFallback(area, areaDesc, example, outcome);
           sentMsg.textContent = 'Sent a fallback email instead — check your email app.';
           sentMsg.style.display = 'block';
         }

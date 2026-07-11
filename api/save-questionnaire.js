@@ -17,7 +17,8 @@
 //                                   (paste it exactly as-is, including the
 //                                   -----BEGIN/END PRIVATE KEY----- lines)
 //    GOOGLE_SHEET_ID              = the Sheet ID from step 4
-// 6. Redeploy. Each questionnaire submission adds a row: timestamp, q1, q2, q3.
+// 6. Redeploy. Each questionnaire submission adds a row: timestamp, area,
+//    areaDesc, example, outcome.
 
 const { google } = require('googleapis');
 
@@ -34,9 +35,10 @@ module.exports = async function handler(req, res) {
   try {
     const body =
       typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const q1 = String(body.q1 || '').slice(0, 500);
-    const q2 = String(body.q2 || '').slice(0, 500);
-    const q3 = String(body.q3 || '').slice(0, 1000);
+    const area = String(body.area || '').slice(0, 500);
+    const areaDesc = String(body.areaDesc || '').slice(0, 1000);
+    const example = String(body.example || '').slice(0, 1000);
+    const outcome = String(body.outcome || '').slice(0, 1000);
 
     const auth = new google.auth.JWT(
       GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -50,10 +52,10 @@ module.exports = async function handler(req, res) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: GOOGLE_SHEET_ID,
-      range: 'Sheet1!A:D',
+      range: 'Sheet1!A:E',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
-        values: [[new Date().toISOString(), q1, q2, q3]],
+        values: [[new Date().toISOString(), area, areaDesc, example, outcome]],
       },
     });
 

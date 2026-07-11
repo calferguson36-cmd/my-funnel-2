@@ -91,7 +91,7 @@ of that file; in short:
    - `GOOGLE_SERVICE_ACCOUNT_EMAIL` — the JSON's `client_email`
    - `GOOGLE_PRIVATE_KEY` — the JSON's `private_key`
    - `GOOGLE_SHEET_ID` — from the Sheet's URL
-5. Redeploy. Each submission appends a row: timestamp, answer 1, answer 2, answer 3.
+5. Redeploy. Each submission appends a row: timestamp, area, area description, example, desired outcome.
 
 Until these are set, the button falls back to a pre-filled `mailto:` so answers still
 reach you.
