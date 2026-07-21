@@ -46,7 +46,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, META_PIXEL_ID, META_CAPI_ACCESS_TOKEN } = process.env;
+  const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, META_PIXEL_ID, META_CAPI_ACCESS_TOKEN, META_TEST_EVENT_CODE } = process.env;
   if (!STRIPE_SECRET_KEY || !STRIPE_WEBHOOK_SECRET) {
     return res.status(500).json({ error: 'Server is missing Stripe webhook environment variables.' });
   }
@@ -76,26 +76,36 @@ module.exports = async function handler(req, res) {
         userData.em = [hashForMeta(intent.metadata.email)];
       }
 
-      await fetch(
+      const payload = {
+        data: [{
+          event_name: 'Purchase',
+          event_time: Math.floor(Date.now() / 1000),
+          event_id: intent.id, // shared with the client Pixel event for dedup
+          action_source: 'website',
+          user_data: userData,
+          custom_data: {
+            currency: intent.currency.toUpperCase(),
+            value: intent.amount / 100,
+          },
+        }],
+      };
+      // Only set while verifying in Events Manager's Test Events tool — remove
+      // the META_TEST_EVENT_CODE env var afterward, or real purchases will stop
+      // counting in normal reporting.
+      if (META_TEST_EVENT_CODE) payload.test_event_code = META_TEST_EVENT_CODE;
+
+      const metaResp = await fetch(
         `https://graph.facebook.com/v19.0/${META_PIXEL_ID}/events?access_token=${META_CAPI_ACCESS_TOKEN}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            data: [{
-              event_name: 'Purchase',
-              event_time: Math.floor(Date.now() / 1000),
-              event_id: intent.id, // shared with the client Pixel event for dedup
-              action_source: 'website',
-              user_data: userData,
-              custom_data: {
-                currency: intent.currency.toUpperCase(),
-                value: intent.amount / 100,
-              },
-            }],
-          }),
+          body: JSON.stringify(payload),
         }
       );
+      if (!metaResp.ok) {
+        const errBody = await metaResp.text();
+        console.error('Meta CAPI rejected the event:', metaResp.status, errBody);
+      }
     } catch (err) {
       // Log-and-continue: a failed Meta call shouldn't make Stripe retry the
       // webhook (the payment itself already succeeded).
