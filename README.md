@@ -29,7 +29,9 @@ catalyst-funnel-engine/
 │
 ├─ api/
 │   ├─ create-payment-intent.js  ← CHECKOUT ENGINE: secure server-side pricing
-│   └─ config.js                 ← serves your publishable Stripe key
+│   ├─ config.js                 ← serves your publishable Stripe key + Meta Pixel ID
+│   ├─ save-questionnaire.js     ← saves thank-you page answers to Google Sheets
+│   └─ stripe-webhook.js         ← source-of-truth Purchase event → Meta CAPI
 ├─ assets/                   ← your logo + emblem (placeholders to replace)
 ├─ vercel.json               ← clean URLs + routing
 │
@@ -96,6 +98,30 @@ of that file; in short:
 Until these are set, the button falls back to a pre-filled `mailto:` so answers still
 reach you.
 
+### Meta Pixel + Conversions API (optional)
+
+Ad tracking uses Meta's recommended dual pattern: a client-side Pixel `Purchase` event
+on the thank-you page, plus a server-side Conversions API (CAPI) event fired from
+`api/stripe-webhook.js` the moment Stripe actually clears the charge — server-to-server,
+so it fires even if the buyer closes the tab or runs an ad blocker. Both send the same
+`event_id` (the PaymentIntent id) so Meta dedupes them into one accurate conversion.
+Full setup steps are in the comment at the top of `api/stripe-webhook.js`; in short:
+
+1. Meta Events Manager → your Pixel → Settings → Conversions API → **Generate access
+   token**. Copy the **Pixel ID** from the same page.
+2. Stripe Dashboard → Developers → Webhooks → **Add endpoint**:
+   - URL: `https://yourdomain.com/api/stripe-webhook`
+   - Event: `payment_intent.succeeded`
+   - Reveal and copy the signing secret (`whsec_...`).
+3. Add three more **Environment Variables** in Vercel:
+   - `STRIPE_WEBHOOK_SECRET` — the `whsec_...` secret from step 2
+   - `META_PIXEL_ID` — the Pixel ID from step 1
+   - `META_CAPI_ACCESS_TOKEN` — the access token from step 1
+4. Redeploy.
+
+Until these are set, no ad-tracking calls are made — checkout and fulfillment aren't
+affected either way.
+
 ---
 
 ## Security (read this)
@@ -104,8 +130,9 @@ reach you.
   and is read server-side.
 - The order total is computed **on the server** from a trusted price map, so a tampered
   browser can't change what a customer pays.
-- The thank-you page only reflects Stripe's redirect status. For bulletproof
-  fulfillment, add a Stripe **webhook** (not included) as the source of truth.
+- The thank-you page's status text is just a display convenience. `api/stripe-webhook.js`
+  is the actual source of truth — Stripe calls it server-to-server once a charge clears,
+  independent of what happens in the buyer's browser.
 
 ## Local preview (optional)
 

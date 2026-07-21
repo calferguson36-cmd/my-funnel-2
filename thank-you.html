@@ -65,8 +65,9 @@
 
   <script>
     // Stripe appends ?payment_intent=...&redirect_status=succeeded to this URL.
-    // We just surface the status here; the authoritative confirmation should be a
-    // Stripe webhook on the backend (not built yet).
+    // This just surfaces the status to the buyer; the authoritative record of
+    // the sale is api/stripe-webhook.js, which Stripe calls server-to-server
+    // regardless of what happens in this browser tab.
     (function () {
       var p = new URLSearchParams(location.search);
       var s = p.get('redirect_status');
@@ -75,6 +76,43 @@
       if (s === 'succeeded') el.textContent = 'Payment successful ✓';
       else if (s) el.textContent = 'Payment status: ' + s;
       else el.style.display = 'none';
+    })();
+  </script>
+
+  <script>
+    // Meta Pixel — fires a client-side Purchase event alongside the
+    // server-side one in api/stripe-webhook.js. Both use the same event_id
+    // (the PaymentIntent id) so Meta dedupes them into a single conversion.
+    // Only fires when Stripe's redirect confirms the payment succeeded.
+    (function () {
+      var p = new URLSearchParams(location.search);
+      if (p.get('redirect_status') !== 'succeeded') return;
+      var paymentIntentId = p.get('payment_intent');
+      if (!paymentIntentId) return;
+
+      fetch('/api/config')
+        .then(function (r) { return r.json(); })
+        .then(function (cfg) {
+          if (!cfg || !cfg.pixelId) return;
+
+          /* eslint-disable */
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          /* eslint-enable */
+
+          fbq('init', cfg.pixelId);
+          fbq('track', 'PageView');
+          // Price matches the single fixed price in checkout.html / api/create-payment-intent.js
+          // (PRODUCT_CENTS) — update here too if that ever changes.
+          fbq('track', 'Purchase', { value: 14.95, currency: 'AUD' }, { eventID: paymentIntentId });
+        })
+        .catch(function () { /* Pixel is best-effort; the webhook is the source of truth */ });
     })();
   </script>
 
