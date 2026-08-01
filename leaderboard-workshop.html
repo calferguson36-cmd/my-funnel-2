@@ -22,10 +22,13 @@
   .hero.band--dark .lead.lead--rect { border-radius: var(--radius); max-width: 620px; }
   .hero .subhead.subhead--sm { font-size: 17px; }
   .hero.band--dark .lead.lead--sm { font-size: 15px; }
-  .founder-byline { display: flex; align-items: center; gap: 14px; justify-content: center; margin: 4px 0 22px; }
-  .founder-byline__photo { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); box-shadow: var(--shadow); flex: 0 0 auto; }
-  .founder-byline__text { text-align: left; font-size: 14px; color: var(--muted); line-height: 1.4; }
-  .founder-byline__text strong { display: block; color: var(--primary); font-family: var(--font-head); font-size: 18px; }
+  .founder-wrap { max-width: 720px; margin: 0 auto; text-align: left; }
+  .founder-wrap::after { content: ""; display: table; clear: both; }
+  .founder-wrap__photo { float: left; width: 240px; margin: 4px 28px 14px 0; border-radius: var(--radius); object-fit: cover; border: 2px solid var(--gold); box-shadow: var(--shadow); }
+  @media (max-width: 620px) {
+    .founder-wrap__photo { float: none; display: block; width: 180px; margin: 0 auto 20px; }
+    .founder-wrap { text-align: center; }
+  }
 </style>
 </head>
 <body>
@@ -101,24 +104,19 @@
 
   <!-- FOUNDER PROOF -->
   <section class="band band--alt">
-    <div class="founder-byline">
-      <img src="assets/callum-headshot.jpg" alt="Callum Ferguson" class="founder-byline__photo">
-      <div class="founder-byline__text">
-        <strong>Callum Ferguson</strong>
-        <span>Certified Breathwork Facilitator &middot; Former #1 On The Board</span>
-      </div>
-    </div>
-
     <h2>This Is The Exact Tool I Used To Top Sales Leaderboards Working Part Time</h2>
 
-    <p>While everyone else on the floor was grinding 60+ hour weeks, hustling every lead, staying busy for the sake of busy, I was working part time.</p>
-    <p>I wasn&rsquo;t doing more. I was doing less, better. I found the 1% of activities that actually moved the number, and let the rest go.</p>
-    <p>But the real edge wasn&rsquo;t the activities. It was <em>what happened in the room.</em></p>
-    <p>Every closer knows the moment. The prospect throws the objection. The deal is sitting right on the line. And you can feel yourself either rise to it or lose yourself in it.</p>
-    <p>Most people spike. Voice speeds up, shoulders lock, and they start selling AT the person instead of listening to them.</p>
-    <p>By altering my brain state, I stayed calm under pressure. I could hear the objection for what it was, just a question that needed an honest answer, and respond instead of react.</p>
-    <p>One sale still sits with me. End of quarter, the kind of make-or-break sale where closing it jumped me a tier and picked up an extra $5K in commission, and losing it meant no tier and no bonus for the month. The prospect objected right at the finish line. I stayed in it, worked the objection clean, and closed.</p>
-    <p>That&rsquo;s what I&rsquo;m teaching live on August 15.</p>
+    <div class="founder-wrap">
+      <img src="assets/callum-headshot.jpg" alt="Callum Ferguson" class="founder-wrap__photo">
+      <p>While everyone else on the floor was grinding 60+ hour weeks, hustling every lead, staying busy for the sake of busy, I was working part time.</p>
+      <p>I wasn&rsquo;t doing more. I was doing less, better. I found the 1% of activities that actually moved the number, and let the rest go.</p>
+      <p>But the real edge wasn&rsquo;t the activities. It was <em>what happened in the room.</em></p>
+      <p>Every closer knows the moment. The prospect throws the objection. The deal is sitting right on the line. And you can feel yourself either rise to it or lose yourself in it.</p>
+      <p>Most people spike. Voice speeds up, shoulders lock, and they start selling AT the person instead of listening to them.</p>
+      <p>By altering my brain state, I stayed calm under pressure. I could hear the objection for what it was, just a question that needed an honest answer, and respond instead of react.</p>
+      <p>One sale still sits with me. End of quarter, the kind of make-or-break sale where closing it jumped me a tier and picked up an extra $5K in commission, and losing it meant no tier and no bonus for the month. The prospect objected right at the finish line. I stayed in it, worked the objection clean, and closed.</p>
+      <p>That&rsquo;s what I&rsquo;m teaching live on August 15.</p>
+    </div>
   </section>
 
   <!-- WHAT YOU LEARN -->
@@ -144,7 +142,7 @@
 
   <!-- WHO IT'S FOR -->
   <section class="band band--tint">
-    <h2 class="center">Who This Is For</h2>
+    <h2>Who This Is For</h2>
     <div class="compare">
       <div class="compare__col compare__new">
         <h4>This is for you if:</h4>
