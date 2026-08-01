@@ -13,6 +13,14 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "xpuyqjbuih");
 </script>
+<style>
+  /* Page-scoped overrides — do not touch brand.css, these apply only here. */
+  .countdown { display: flex; gap: 22px; justify-content: center; margin: 20px 0 6px; }
+  .countdown__unit { display: flex; flex-direction: column; align-items: center; min-width: 60px; }
+  .countdown__num { font-family: var(--font-head); font-size: 36px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .countdown__label { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--celadon); margin-top: 4px; }
+  .hero.band--dark .lead.lead--rect { border-radius: var(--radius); max-width: 620px; }
+</style>
 </head>
 <body>
 
@@ -30,16 +38,19 @@
     <div class="breaking">
       <p class="breaking__text">Live workshop &middot; Saturday, August 15, 2026 &middot; AEST</p>
     </div>
-    <h1>How I Won Leaderboards Working Part-Time Hours <span class="hl">(While Everyone Else Grinded 60+ Hour Weeks)</span></h1>
+    <h1>How I Won Leaderboards Working Part-Time Hours (While Everyone Else Grinded <span class="hl">60+ Hour Weeks</span>)</h1>
 
-    <blockquote class="hero-quote">
-      <p>&ldquo;I&rsquo;ve literally had one of the best people in the company tell me point blank I&rsquo;m better at selling than him. He just works WAY harder than I do because he&rsquo;s not a nervous wreck all the time.&rdquo;</p>
-      <cite>&mdash; a sales rep, on r/sales</cite>
-    </blockquote>
+    <p class="subhead">I&rsquo;ll show you the 3 tools I used to handle the pressure, close the sale, and hit my commissions &mdash; without burning out to get there.</p>
 
-    <p class="subhead">The same biochemical routine behind Limitless Flow States, reframed for the exact moment a sale is won or lost</p>
+    <!-- Countdown target: [MISSING: exact start time — placeholder set to 9:00 AM AEST, confirm with Callum] -->
+    <div class="countdown" id="workshopCountdown" data-target="2026-08-15T09:00:00+10:00" aria-label="Countdown to the live workshop">
+      <div class="countdown__unit"><span class="countdown__num" id="cdDays">00</span><span class="countdown__label">Days</span></div>
+      <div class="countdown__unit"><span class="countdown__num" id="cdHours">00</span><span class="countdown__label">Hours</span></div>
+      <div class="countdown__unit"><span class="countdown__num" id="cdMins">00</span><span class="countdown__label">Mins</span></div>
+      <div class="countdown__unit"><span class="countdown__num" id="cdSecs">00</span><span class="countdown__label">Secs</span></div>
+    </div>
 
-    <p class="lead">Live workshop + lifetime replay. If you don&rsquo;t feel calmer and more in control in your very next high-pressure sales moment, email within 7 days for a full refund.</p>
+    <p class="lead lead--rect">If you don&rsquo;t feel calmer and more in control in your very next high-pressure sales moment, email within 7 days for a full refund.</p>
 
     <div class="cta-block">
       <a class="btn pulse" href="#get-started">Save My Seat &mdash; $47 &rsaquo;
@@ -253,6 +264,41 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   onScroll();
+})();
+</script>
+
+<!-- Countdown to the live workshop -->
+<script>
+(function () {
+  var el = document.getElementById('workshopCountdown');
+  if (!el) return;
+  var target = new Date(el.getAttribute('data-target')).getTime();
+  var days = document.getElementById('cdDays');
+  var hours = document.getElementById('cdHours');
+  var mins = document.getElementById('cdMins');
+  var secs = document.getElementById('cdSecs');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    var diff = target - Date.now();
+    if (diff <= 0) {
+      el.innerHTML = '<div class="countdown__unit" style="min-width:auto;"><span class="countdown__label" style="font-size:16px;color:var(--gold);">We&rsquo;re live &mdash; join now</span></div>';
+      clearInterval(timer);
+      return;
+    }
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    days.textContent = pad(d);
+    hours.textContent = pad(h);
+    mins.textContent = pad(m);
+    secs.textContent = pad(s);
+  }
+
+  tick();
+  var timer = setInterval(tick, 1000);
 })();
 </script>
 
