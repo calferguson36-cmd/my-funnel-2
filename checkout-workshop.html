@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How I Won Leaderboards Working Part-Time Hours &mdash; Checkout</title>
+<link rel="icon" type="image/svg+xml" href="assets/emblem.svg">
+<link rel="stylesheet" href="brand.css">
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xpuyqjbuih");
+</script>
+<style>
+  body { background: var(--bg); }
+  .co-trust {
+    background: var(--primary); color: var(--celadon);
+    display: flex; flex-wrap: wrap; gap: 6px 28px; justify-content: center;
+    padding: 12px 18px; font-size: 14px; font-weight: 600; text-align: center;
+  }
+  .co-head { text-align: center; padding: 22px 0 4px; }
+  .co-head img { height: 34px; }
+  .co-grid {
+    max-width: 1080px; margin: 10px auto 0; padding: 0 20px;
+    display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; align-items: start;
+  }
+  @media (max-width: 860px){ .co-grid { grid-template-columns: 1fr; } }
+  .panel { background: var(--white); border: 1px solid rgba(1,49,33,0.10); border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px; }
+  .panel h2 { margin-top: 8px; }
+  .label { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin: 22px 0 8px; }
+  .field { width: 100%; padding: 13px 14px; border: 1px solid rgba(50,49,46,0.25); border-radius: 8px; font-family: var(--font-body); font-size: 16px; margin-bottom: 12px; background: var(--bg); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  table.line { width: 100%; border-collapse: collapse; margin: 8px 0 4px; font-size: 15px; }
+  table.line th { text-align: left; color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid rgba(150,143,142,0.3); padding: 8px 6px; }
+  table.line td { padding: 10px 6px; border-bottom: 1px solid rgba(150,143,142,0.16); }
+  table.line td.r, table.line th.r { text-align: right; }
+  .totals { background: var(--bg); border-radius: 8px; padding: 14px 16px; margin: 14px 0; }
+  .totals .grand { display: flex; justify-content: space-between; font-weight: 800; color: var(--primary); font-size: 19px; border-top: 1px solid rgba(150,143,142,0.3); margin-top: 8px; padding-top: 8px; }
+  .pay-methods { display: flex; gap: 10px; margin: 8px 0 14px; }
+  .pay-methods span { flex: 1; text-align: center; border: 1px solid rgba(50,49,46,0.2); border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 600; color: var(--muted); background: var(--bg); }
+  .agree { display: flex; gap: 12px; align-items: flex-start; font-size: 13px; color: var(--text); margin: 16px 0; line-height: 1.5; }
+  .agree input { margin-top: 3px; transform: scale(1.2); accent-color: var(--secondary); }
+  .btn-full { display: block; width: 100%; text-align: center; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+  .badge { font-size: 11px; font-weight: 700; color: var(--muted); border: 1px solid rgba(150,143,142,0.35); border-radius: 6px; padding: 6px 10px; }
+  .recap .congrats { font-family: var(--font-head); color: var(--secondary); font-weight: 700; font-size: 22px; text-align: center; margin: 6px 0 4px; }
+  .recap ul.checks li { font-size: 15px; padding-left: 32px; }
+  .recap ul.checks li:before { font-size: 16px; }
+  .guar-mini { background: var(--primary); color: var(--bg); border-radius: var(--radius); padding: 16px 18px; margin: 16px 0; text-align: center; font-size: 14px; }
+  .guar-mini strong { color: var(--celadon); }
+  #payment-element { margin: 8px 0 4px; }
+  .pay-error { color: #b3261e; font-size: 13px; margin: 8px 0 0; min-height: 16px; }
+  #payBtn[disabled] { opacity: 0.7; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================================
+  CHECKOUT — LEADERBOARD WORKSHOP
+  Separate product from the main $14.95 Limitless Flow States checkout. Uses its
+  own API endpoint (api/create-payment-intent-workshop.js) so the two never
+  collide. No order bumps on this offer.
+============================================================================= -->
+
+<div class="co-trust">
+  <span>&#128181; How I Won Leaderboards Working Part-Time</span>
+  <span>&#128274; 100% Secure Order</span>
+  <span>&#128197; Live Aug 15, 2026 + Replay</span>
+</div>
+
+<header class="co-head">
+  <img src="assets/logo-dark.svg" alt="Limitless Flow States">
+</header>
+
+<div class="co-grid">
+
+  <!-- LEFT: FORM + PAYMENT -->
+  <div class="panel">
+    <h2>You&rsquo;re Almost Finished&hellip;</h2>
+
+    <div class="label">Contact Information</div>
+    <input id="custName" class="field" type="text" placeholder="Full Name">
+    <input id="custEmail" class="field" type="email" placeholder="Email Address">
+
+    <!-- ORDER SUMMARY -->
+    <div class="label">Order Summary</div>
+    <table class="line">
+      <thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Amount</th></tr></thead>
+      <tbody><tr><td>How I Won Leaderboards Working Part-Time Hours</td><td class="r">1</td><td class="r">A$47.00</td></tr></tbody>
+    </table>
+    <div class="totals">
+      <div class="grand"><span>Order Total</span><span>A$47.00</span></div>
+      <p class="small" style="margin:6px 0 0;">All prices in AUD.</p>
+    </div>
+
+    <!-- PAYMENT METHOD (Stripe Payment Element: card + Apple/Google Pay) -->
+    <div class="label">Payment Method</div>
+    <div id="payment-element"><!-- Stripe injects the card and wallet fields here --></div>
+    <div id="payment-error" class="pay-error" role="alert"></div>
+
+    <label class="agree">
+      <input type="checkbox">
+      <span>I agree to the Terms &amp; Conditions and Privacy Policy.</span>
+    </label>
+
+    <button id="payBtn" class="btn btn-full" type="button">&#128722; Save My Seat &mdash; $47 &#10145;&#65039;</button>
+
+    <p class="small center" style="margin-top:16px;">100% Secure &amp; Safe Payments</p>
+    <p class="center" style="font-weight:700;color:var(--primary);">You&rsquo;re protected by the refund guarantee</p>
+
+    <div class="badges">
+      <span class="badge">Refund Guarantee</span>
+      <span class="badge">Live + Replay</span>
+    </div>
+    <div class="badges">
+      <span class="badge">Mastercard</span><span class="badge">Discover</span><span class="badge">Visa</span><span class="badge">Amex</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: ORDER RECAP -->
+  <div class="panel recap">
+    <p class="congrats">&#127881; Congratulations!</p>
+    <h3 style="text-align:center;margin-top:0;">Here&rsquo;s What You&rsquo;re Getting:</h3>
+
+    <ul class="checks">
+      <li>Live workshop: How I Won Leaderboards Working Part-Time Hours &mdash; Saturday, August 15, 2026 (AEST)</li>
+      <li>Lifetime access to the replay</li>
+    </ul>
+
+    <div class="guar-mini">
+      <strong>Refund Guarantee</strong><br>
+      Not calmer and more in control in your next high-pressure sales moment? Email within 7 days for a full refund.
+    </div>
+
+    <p class="small center">Need help? Contact us at <a href="mailto:cal@limitlessflowstates.com.au">cal@limitlessflowstates.com.au</a></p>
+  </div>
+
+</div>
+
+<footer class="foot">
+  <img src="assets/logo-light.svg" alt="Limitless Flow States">
+  <p>Limitless Flow States &copy; 2026</p>
+  <p><a href="#">Privacy Policy</a> &middot; <a href="#">Terms &amp; Conditions</a></p>
+  <p>Need Help? Email <a href="mailto:cal@limitlessflowstates.com.au">cal@limitlessflowstates.com.au</a></p>
+</footer>
+
+<script>
+(function () {
+  // Fixed-price product — no order bumps on this offer.
+  var PRODUCT = { label: 'How I Won Leaderboards Working Part-Time Hours', cents: 4700 };
+
+  window.funnelOrder = function () {
+    return { productCents: PRODUCT.cents, bumps: [], totalCents: PRODUCT.cents };
+  };
+})();
+</script>
+
+<!-- ===== Stripe embedded Payment Element ===== -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+(function () {
+  var RETURN_URL = window.location.origin + "/thank-you-workshop"; // where Stripe sends the buyer after payment
+  var errEl = document.getElementById('payment-error');
+  var payBtn = document.getElementById('payBtn');
+
+  fetch('/api/config')
+    .then(function (r) { return r.json(); })
+    .then(function (cfg) {
+      var pk = cfg && cfg.publishableKey;
+      if (!pk || pk.indexOf('pk_') !== 0) {
+        errEl.textContent = 'Checkout is not live yet: set STRIPE_PUBLISHABLE_KEY in your Vercel environment variables.';
+        return;
+      }
+      boot(pk);
+    })
+    .catch(function () {
+      errEl.textContent = 'Could not load payment configuration (is /api/config deployed?).';
+    });
+
+  function setBusy(b) { payBtn.disabled = b; }
+
+  function boot(pk) {
+    var order = window.funnelOrder();
+    var stripe = Stripe(pk);
+    var elements = stripe.elements({
+      mode: 'payment',
+      amount: order.totalCents,
+      currency: 'aud',
+      appearance: {
+        theme: 'stripe',
+        variables: { colorPrimary: '#1C6E42', fontFamily: 'Work Sans, system-ui, sans-serif', borderRadius: '8px' }
+      }
+    });
+    elements.create('payment').mount('#payment-element');
+
+    payBtn.addEventListener('click', async function () {
+      errEl.textContent = '';
+      var name = (document.getElementById('custName') || {}).value || '';
+      var email = (document.getElementById('custEmail') || {}).value || '';
+      if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
+
+      setBusy(true);
+      try {
+        // 1) Validate the Payment Element fields.
+        var sub = await elements.submit();
+        if (sub.error) { errEl.textContent = sub.error.message; setBusy(false); return; }
+
+        // 2) Create the PaymentIntent server-side via the workshop's own endpoint.
+        var resp = await fetch('/api/create-payment-intent-workshop', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name, email: email })
+        });
+        var data = await resp.json();
+        if (!resp.ok || !data.clientSecret) { errEl.textContent = data.error || 'Could not start payment.'; setBusy(false); return; }
+
+        // 3) Confirm the payment. On success Stripe redirects to RETURN_URL.
+        var result = await stripe.confirmPayment({
+          elements: elements,
+          clientSecret: data.clientSecret,
+          confirmParams: { return_url: RETURN_URL }
+        });
+        if (result.error) { errEl.textContent = result.error.message; setBusy(false); }
+      } catch (e) {
+        errEl.textContent = (e && e.message) || 'Something went wrong. Please try again.';
+        setBusy(false);
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
