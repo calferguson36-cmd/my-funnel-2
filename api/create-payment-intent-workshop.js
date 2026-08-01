@@ -1,5 +1,5 @@
 // Vercel serverless function — creates a Stripe PaymentIntent for the
-// "How I Won Leaderboards Working Part-Time Hours" workshop checkout.
+// "How I Won Sales Leaderboards Working Part-Time Hours" workshop checkout.
 //
 // Separate from api/create-payment-intent.js (the $14.95 Limitless Flow States
 // product) so the two prices never collide. Same security model: amount is
@@ -10,7 +10,7 @@ const Stripe = require('stripe');
 
 // Workshop price, in cents. $47.00 AUD.
 const PRODUCT_CENTS = 4700;
-const PRODUCT_LABEL = 'How I Won Leaderboards Working Part-Time Hours';
+const PRODUCT_LABEL = 'How I Won Sales Leaderboards Working Part-Time Hours';
 
 const aud = (cents) => 'A$' + (cents / 100).toFixed(2);
 
