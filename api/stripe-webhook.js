@@ -15,14 +15,21 @@
 //    STRIPE_WEBHOOK_SECRET   = the whsec_... signing secret from step 2
 //    META_PIXEL_ID           = the Pixel ID from step 1
 //    META_CAPI_ACCESS_TOKEN  = the access token from step 1
+//    RESEND_API_KEY          = API key from resend.com/api-keys
+//    RESEND_FROM_EMAIL       = a sender address on a domain verified in Resend
+//                              (e.g. "Callum <cal@limitlessflowstates.com.au>")
 // 4. Redeploy.
 //
 // Pairs with the client-side Pixel Purchase event on thank-you.html — both
 // send the same event_id (the PaymentIntent id) so Meta dedupes them into
 // one accurate conversion, per Meta's own recommended pattern.
+//
+// Also sends the workshop reminder email sequence (via Resend) for workshop
+// purchases specifically — see _workshop-emails.js.
 
 const Stripe = require('stripe');
 const crypto = require('crypto');
+const { buildWorkshopEmailQueue } = require('./_workshop-emails');
 
 // Stripe's signature check needs the exact raw request bytes, so this
 // function reads the body itself instead of using Vercel's JSON parsing.
@@ -46,7 +53,10 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, META_PIXEL_ID, META_CAPI_ACCESS_TOKEN, META_TEST_EVENT_CODE } = process.env;
+  const {
+    STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, META_PIXEL_ID, META_CAPI_ACCESS_TOKEN, META_TEST_EVENT_CODE,
+    RESEND_API_KEY, RESEND_FROM_EMAIL,
+  } = process.env;
   if (!STRIPE_SECRET_KEY || !STRIPE_WEBHOOK_SECRET) {
     return res.status(500).json({ error: 'Server is missing Stripe webhook environment variables.' });
   }
@@ -110,6 +120,39 @@ module.exports = async function handler(req, res) {
       // Log-and-continue: a failed Meta call shouldn't make Stripe retry the
       // webhook (the payment itself already succeeded).
       console.error('Meta CAPI send failed:', err.message);
+    }
+  }
+
+  const isWorkshopPurchase = intent.metadata && intent.metadata.item_ids === 'workshop';
+  const buyerEmail = intent.metadata && intent.metadata.email;
+
+  if (isWorkshopPurchase && RESEND_API_KEY && RESEND_FROM_EMAIL && buyerEmail) {
+    try {
+      const queue = buildWorkshopEmailQueue(intent.metadata.name);
+      for (const email of queue) {
+        const resendResp = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${RESEND_API_KEY}`,
+          },
+          body: JSON.stringify({
+            from: RESEND_FROM_EMAIL,
+            to: [buyerEmail],
+            subject: email.subject,
+            html: email.html,
+            ...(email.scheduledAt ? { scheduled_at: email.scheduledAt } : {}),
+          }),
+        });
+        if (!resendResp.ok) {
+          const errBody = await resendResp.text();
+          console.error('Resend rejected a workshop email:', resendResp.status, errBody);
+        }
+      }
+    } catch (err) {
+      // Log-and-continue: a failed email send shouldn't make Stripe retry the
+      // webhook (the payment itself already succeeded).
+      console.error('Resend workshop email send failed:', err.message);
     }
   }
 
