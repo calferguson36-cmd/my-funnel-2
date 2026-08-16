@@ -29,26 +29,26 @@ function greeting(name) {
 
 function confirmationEmail(name) {
   return {
-    subject: "You're in. Here's your link for August 15.",
+    subject: "You're in. Here's your link for August 29.",
     html: wrap(`
       <p>${greeting(name)}</p>
       <p>You're in.</p>
       <p><strong>How I Won Sales Leaderboards Working Part-Time Hours</strong> is locked in for:</p>
-      <p><strong>Saturday, August 15, 2026, 10:00am AEST</strong></p>
+      <p><strong>Saturday, August 29, 2026, 10:00am AEST</strong></p>
       <p>Here's your link. Save this email, you'll need it that morning.</p>
       <p><a href="${MEET_LINK}">Join here: ${MEET_LINK}</a></p>
       <p>Quick word on what this actually is.</p>
       <p>This isn't sales scripts. It isn't objection-handling tactics. You won't leave with a new pitch.</p>
       <p>What you're getting is <strong>The Finish-Line Reset</strong>. A 30-minute experience I used to top sales leaderboards on part-time hours, while everyone around me grinded 60+ hour weeks.</p>
       <p>Same skill. Same product. The only thing that changed was what was happening in my nervous system the moment the pressure hit.</p>
-      <p>That's what we're doing live on the 15th.</p>
+      <p>That's what we're doing live on the 29th.</p>
       <p><strong>Before then, a few things to sort out:</strong></p>
       ${PREP_LIST_HTML}
       <p>Can't make it live? You'll get lifetime access to the replay either way. But if you can be there live, be there live.</p>
-      <p><strong>Your guarantee:</strong> come Monday, take it into your first hard call or conversation. If nothing's different, email me. Full refund, no questions asked, no time wasted arguing about it.</p>
-      <p>See you on the 15th.</p>
+      <p><strong>Your guarantee:</strong> if you don't get 3 more sales in the following week, then ask me for a full refund and you will get it.</p>
+      <p>See you on the 29th.</p>
       <p>Callum</p>
-      <p>P.S. Add the 15th to your calendar right now if you haven't. This one's easy to let slip.</p>
+      <p>P.S. Add the 29th to your calendar right now if you haven't. This one's easy to let slip.</p>
     `),
   };
 }
@@ -94,8 +94,8 @@ function morningOfEmail(name) {
 }
 
 // AEST (Brisbane) has no daylight saving, so these convert to fixed UTC offsets.
-const DAY_BEFORE_SEND_AT = '2026-08-13T23:00:00.000Z'; // Aug 14, 9:00am AEST
-const MORNING_OF_SEND_AT = '2026-08-14T22:00:00.000Z'; // Aug 15, 8:00am AEST
+const DAY_BEFORE_SEND_AT = '2026-08-27T23:00:00.000Z'; // Aug 28, 9:00am AEST
+const MORNING_OF_SEND_AT = '2026-08-28T22:00:00.000Z'; // Aug 29, 8:00am AEST
 
 // Builds the set of emails to send for a workshop purchase. Reminders whose
 // send time has already passed are dropped rather than sent late/immediately,
