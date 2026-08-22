@@ -244,5 +244,33 @@
 })();
 </script>
 
+<!-- Meta Pixel — PageView + InitiateCheckout. Value matches the fixed price in
+     PRODUCT above and api/create-payment-intent-workshop.js. -->
+<script>
+(function () {
+  fetch('/api/config')
+    .then(function (r) { return r.json(); })
+    .then(function (cfg) {
+      if (!cfg || !cfg.pixelId) return;
+
+      /* eslint-disable */
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      /* eslint-enable */
+
+      fbq('init', cfg.pixelId);
+      fbq('track', 'PageView');
+      fbq('track', 'InitiateCheckout', { value: 27.00, currency: 'AUD' });
+    })
+    .catch(function () { /* Pixel is best-effort; never block checkout on it */ });
+})();
+</script>
+
 </body>
 </html>
