@@ -8,8 +8,8 @@
 
 const Stripe = require('stripe');
 
-// Workshop price, in cents. $47.00 AUD.
-const PRODUCT_CENTS = 4700;
+// Workshop price, in cents. $27.00 AUD.
+const PRODUCT_CENTS = 2700;
 const PRODUCT_LABEL = 'How I Won Sales Leaderboards Working Part-Time Hours';
 
 const aud = (cents) => 'A$' + (cents / 100).toFixed(2);

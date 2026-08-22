@@ -89,7 +89,7 @@
           fbq('init', cfg.pixelId);
           fbq('track', 'PageView');
           // Price matches the fixed price in checkout-workshop.html / api/create-payment-intent-workshop.js
-          fbq('track', 'Purchase', { value: 47.00, currency: 'AUD' }, { eventID: paymentIntentId });
+          fbq('track', 'Purchase', { value: 27.00, currency: 'AUD' }, { eventID: paymentIntentId });
         })
         .catch(function () { /* Pixel is best-effort; the webhook is the source of truth */ });
     })();
