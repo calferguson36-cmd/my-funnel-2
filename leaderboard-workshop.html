@@ -114,6 +114,38 @@
   .countdown__label { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-top: 5px; font-weight: 600; }
   .when { text-align: center; font-size: 17px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.01em; }
 
+  /* Click-to-play video. The YouTube player is only loaded once someone
+     clicks, so a visit that never plays costs nothing but the poster. */
+  .vid {
+    position: relative; width: 64%; max-width: 486px; aspect-ratio: 16 / 9;
+    margin: 26px auto 8px; border-radius: 10px; overflow: hidden;
+    background: #000; cursor: pointer; border: 0; padding: 0; display: block;
+  }
+  .vid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vid iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .vid__play {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.28); transition: background 0.15s ease;
+  }
+  .vid:hover .vid__play { background: rgba(0,0,0,0.40); }
+  .vid__play span {
+    display: flex; align-items: center; justify-content: center;
+    width: 86px; height: 86px; border-radius: 50%;
+    background: rgba(255,255,255,0.96);
+    box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+    transition: transform 0.15s ease;
+  }
+  .vid:hover .vid__play span { transform: scale(1.06); }
+  .vid__play svg { margin-left: 5px; }
+  .vid__cap { text-align: center; font-size: 14px; color: var(--muted); margin: 0 0 22px; font-weight: 500; }
+  @media (max-width: 640px) {
+    /* Phones: use the full column. At the desktop percentage this lands
+       around 210px wide, where the screen recording is unreadable. */
+    .vid { width: 100%; max-width: none; }
+    .vid__play span { width: 62px; height: 62px; }
+    .vid__play svg { width: 21px; height: 24px; }
+  }
+
   /* CTA */
   .cta { text-align: center; margin: 30px 0 10px; }
   a.btn {
@@ -199,6 +231,18 @@
     <h1>I&rsquo;ll Show You How To Close The Deal Without Becoming A Nervous Wreck</h1>
 
     <p class="subhead">These are the exact tools I used to outsell the rest of my sales floor whilst working part-time hours.</p>
+
+    <button class="vid" id="vidPlay" type="button" data-yt="OkDSFpdWd9s" aria-label="Play the workshop walkthrough video">
+      <img src="assets/workshop-video-poster.jpg" alt="Callum walking through the workshop" width="1280" height="720" fetchpriority="high">
+      <span class="vid__play">
+        <span>
+          <svg width="28" height="32" viewBox="0 0 28 32" fill="none" aria-hidden="true">
+            <path d="M27 14.27a2 2 0 0 1 0 3.46L3 31.86A2 2 0 0 1 0 30.13V1.87A2 2 0 0 1 3 .14l24 14.13Z" fill="#111"/>
+          </svg>
+        </span>
+      </span>
+    </button>
+    <p class="vid__cap">Watch: a 4 minute walkthrough of what you get</p>
 
     <div class="countdown" id="workshopCountdown" data-target="2026-08-29T10:00:00+10:00" aria-label="Countdown to the live workshop">
       <div class="countdown__unit"><span class="countdown__num" id="cdDays">00</span><span class="countdown__label">Days</span></div>
@@ -335,6 +379,28 @@
 <div class="sticky" id="stickyCta">
   <a class="btn" href="checkout-workshop.html">Save My Seat &mdash; $27 &rarr;</a>
 </div>
+
+<!-- Swap the poster for the real player on click. Nothing from YouTube is
+     requested until then, so the page stays fast for people who never play it. -->
+<script>
+(function () {
+  var box = document.getElementById('vidPlay');
+  if (!box) return;
+  box.addEventListener('click', function () {
+    var id = box.getAttribute('data-yt');
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + id +
+                 '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+    iframe.title = 'Workshop walkthrough';
+    iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    box.innerHTML = '';
+    box.appendChild(iframe);
+    box.style.cursor = 'default';
+    if (window.fbq) { fbq('trackCustom', 'VideoPlay'); }
+  }, { once: true });
+})();
+</script>
 
 <script>
 (function () {
